@@ -19,11 +19,13 @@
 <br><br><center><h3>ESTATUS DE ORGANIGRAMAS</h3></center><br><br>
 
 <div class="row">
-<div class="col-md-4"><img src="imagenes/contrato.png" class="d-block w-50" alt="...">  </div>
-<div class="col-md-4"><img src="imagenes/contrato.png" class="d-block w-50" alt="...">  </div>
-<div class="col-md-4"><img src="imagenes/contrato.png" class="d-block w-50" alt="...">  </div>
+	
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."> <br>Actualizados </center> </div>
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."> <br>Desactualizados</center> </div>
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."> <br>En proceso de actualizacion</center> </div>
 </div>
-<br><br>
+
+<br><br><br>
 
 <form method="POST" enctype="multipart/form-data" action="resultadosectorcentral.php">
 <div class="row">
@@ -37,7 +39,7 @@
 
 
 <div class="row">
-
+<br>
 
 		<table class="table">
 	  <thead>
@@ -45,8 +47,8 @@
 		  <th scope="col"><center>No°</center></th>
 	      <th scope="col"><center>Institución</center></th>
 	      <!-- <th scope="col"><center>Proyecto</center></th> -->
-		  <th scope="col"><center>Fecha de autorizacion <br>del Organigrama</center></th>
-	      <!-- <th scope="col"><center>Antiguedad </center></th> -->
+		  <th scope="col"><center>Fecha de autorización</center></th>
+	      <th scope="col"><center>Antiguedad </center></th>
 		  <th scope="col"><center>Estatus</center>	</th>
           <th scope="col"><center>Descargar proyecto</center>	</th>
 	      
@@ -63,7 +65,10 @@
  $fechadeactualizacion = date('2019');
  $anoactual = date('Y');
  $mesactual = date ('m');
- $proyecdisponibles= $anoactual-3;
+ $proyecdisponibles1= $anoactual-1;
+ $proyecdisponibles2= $anoactual-2;
+ $proyecdisponibles3= $anoactual-3;
+ 
  
 
  
@@ -78,6 +83,8 @@ while($crow = mysqli_fetch_assoc($result)){?>
 <!-- Se declara la variable para y se hace la operacion de fechas, para conocer la antiguedad del proyecto -->
 <?php $resultado= $anoactual-$crow['fecha1'];
 	
+	
+
 	if ($resultado<=3) {
 	
 ?> 
@@ -86,8 +93,8 @@ while($crow = mysqli_fetch_assoc($result)){?>
 		  <td><center><?php echo $crow['id'];?></center></td>
 	      <td><center><?php echo $crow['nombre_institucion'];?></center></td>
 		  <td><center><?php echo $crow['fecha_aprobacion'];?></center></td>
-		  <!-- <td><center></*?php if ($resultado>=4) {echo "Hace "; echo $resultado; echo " años";}else {echo "Actualizacion reciente";}?> */</center></td> -->
-		  <td><center><?php if ($crow['fecha1']>=$proyecdisponibles) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td>
+		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
+		  <td><center><?php if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td>
 		  <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td>
 		  
 		      
