@@ -17,9 +17,10 @@
 
 	<div class="container">
   <!-- Content here -->
-<br><center><h3>ACTUALIZAR PROYECTOS DEL SECTOR CENTRAL</h3></center><br>
+<br><center><h3>PROYECTOS DE ORGANIGRAMA ACTUALIZADOS</h3></center>
+<center>(Proyectos con actualización menor a 3 años)</center><br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultadosectorcentral.php">
+<form method="POST" enctype="multipart/form-data" action="resultados_org_actualizados.php">
 <div class="row">
 	
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Buscar"></div>
@@ -38,7 +39,7 @@
 	    <tr>
 	      <th scope="col"><center>Nombre de la Institución</center></th>
 	      <th scope="col"><center>Ultima modificación</center>	</th>
-	      <th scope="col"><center>Fecha de aprobación</center></th>
+		  <th scope="col"><center>Antiguedad</center></th>
 	      <th scope="col"><center>Comentario</center></th>
 	      
 
@@ -48,20 +49,32 @@
 	  
 <?php  
 
+$fechadeactualizacion = date('2019');
+$anoactual = date('Y');
+$mesactual = date ('m');
+$proyecdisponibles1= $anoactual-1;
+$proyecdisponibles2= $anoactual-2;
+$proyecdisponibles3= $anoactual-3;
  
-
 
 $buscar= $_POST["buscar"];
 include 'conexionbd.php';
-$sql = "SELECT * FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
-// $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
+$sql = "SELECT *, SUBSTRING(fecha_de_modificacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE estatus='actualizado' and sectorcentral.secretaria  like '%$buscar%'";
+//  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
 $result = mysqli_query($conn, $sql);
-while($crow = mysqli_fetch_assoc($result)){?>
+
+while($crow = mysqli_fetch_assoc($result)){ 
+	?>
+		<?php $resultado= $anoactual-$crow['ano'];
+		if ($resultado<=3) {
+	
+		?>
+
 		<tbody>
 	    <tr>
 	      <td><center></center><?php echo $crow['secretaria'];?></td>
 	      <td><center><?php echo $crow['fecha_de_modificacion'];?></center></td>
-	      <td><center><?php echo $crow['fecha_de_verificacion'];?></center></td>
+	      <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 	      
 	      
 	      <form method="POST" action="actualizard_sc.php">
@@ -75,7 +88,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	      
 	    </tr>
 <?php
-}
+	}else {echo "";}}
 
  ?>
 	  </tbody>

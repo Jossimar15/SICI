@@ -89,8 +89,8 @@
         </li>-->
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-        <button type="button" class="btn btn-primary" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Buscar</button>&nbsp;&nbsp;
+        <!-- <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search"> -->
+        <!-- <button type="button" class="btn btn-primary" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Buscar</button>&nbsp;&nbsp; -->
       </form>
     </div>
   </div>
