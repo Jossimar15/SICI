@@ -40,7 +40,7 @@
 	      <th scope="col"><center>Nombre de la Institución</center></th>
 	      <th scope="col"><center>Ultima modificación</center>	</th>
 		  <th scope="col"><center>Antiguedad</center></th>
-	      <th scope="col"><center>Comentario</center></th>
+	      <th scope="col"><center>Proyecto</center></th>
 	      
 
 
@@ -59,14 +59,19 @@ $proyecdisponibles3= $anoactual-3;
 
 $buscar= $_POST["buscar"];
 include 'conexionbd.php';
-$sql = "SELECT *, SUBSTRING(fecha_de_modificacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE estatus='actualizado' and sectorcentral.secretaria  like '%$buscar%'";
+ $sql = "SELECT *, SUBSTRING(fecha_de_modificacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 //  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
 $result = mysqli_query($conn, $sql);
 
 while($crow = mysqli_fetch_assoc($result)){ 
 	?>
-		<?php $resultado= $anoactual-$crow['ano'];
+	
+		<?php //se agrego (int) por que la nueva version de PHP pide que se convierta la varible y se pueda realizar la operacion aritmetica
+			// echo $resultado= (int)$anoactual+(int)$crow['ano'];
+		
+		$resultado = (int)$anoactual-(int)$crow['ano'];
 		if ($resultado<=3) {
+			
 	
 		?>
 
@@ -78,9 +83,9 @@ while($crow = mysqli_fetch_assoc($result)){
 	      
 	      
 	      <form method="POST" action="actualizard_sc.php">
-	      <td>
+	      <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center>
 	      </td>
-	      <td><center><button class="btn btn-primary" type="submit">Actualizar</button></center></td>
+		  <!-- <td><center><button class="btn btn-primary" type="submit">Más detalles</button></center></td> -->
 	      <input type="hidden" name="idsecretaria" value="<?php echo $crow['id_fech'];?>" />
 	      <input type="hidden" name="idsecretaria2" value="<?php echo $crow['id_secretaria'];?>" />
 
@@ -89,7 +94,7 @@ while($crow = mysqli_fetch_assoc($result)){
 	    </tr>
 <?php
 	}else {echo "";}}
-
+		
  ?>
 	  </tbody>
 	</table>

@@ -39,9 +39,10 @@
 		  <th scope="col"><center>No°</center></th>
 	      <th scope="col"><center>Institución</center></th>
 	      <!-- <th scope="col"><center>Proyecto</center></th> -->
-		  <th scope="col"><center>Fecha de autorización</center></th>
+		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
-		  <th scope="col"><center>Estatus</center>	</th>
+		  <th scope="col"><center>Inicio de actualización </center></th>
+		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
 	      
@@ -66,18 +67,22 @@
  
  
 include 'conexionbd.php';
-$sql = "SELECT *, SUBSTRING(fecha_aprobacion, -4) AS fecha1 from lista where fecha_aprobacion!=''";
+$sql = "SELECT *, SUBSTRING(fecha_aprobacion, -4) AS fecha1 from lista";
 $result = mysqli_query($conn, $sql);
 
 
 
 while($crow = mysqli_fetch_assoc($result)){?>
 <!-- Se declara la variable para y se hace la operacion de fechas, para conocer la antiguedad del proyecto -->
-<?php $resultado= $anoactual-$crow['fecha1'];
+<?php 
+
+ //se agrego (int) por que la nueva version de PHP pide que se convierta la varible y se pueda realizar la operacion aritmetica
+			// echo $resultado= (int)$anoactual+(int)$crow['ano'];
+	$resultado= (int)$anoactual-(int)$crow['fecha1'];
 	
 	
 
-	if ($resultado<=3) {
+	if ($resultado!=3) {
 	
 ?> 
 		<tbody>
@@ -86,8 +91,9 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	      <td><center><?php echo $crow['nombre_institucion'];?></center></td>
 		  <td><center><?php echo $crow['fecha_aprobacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
+		  <td><center><?php echo "16/01/2024" ?></center></td>
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
-		  <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td>
+		  <!-- <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td> -->
 		  
 		      
 	    </tr>
