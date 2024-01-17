@@ -19,7 +19,7 @@
 
 <br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultados_org_actualizados.php">
+<form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
 <div class="row">
 
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Busca organigrama de institución"></div>
@@ -27,8 +27,8 @@
 		<input type="hidden" name="sector" value="buscacentral" /><br><br><br>
 	</form>
 </div>
-<center><strong><h4>ORGANIGRAMAS ACTUALIZADOS</h4> </strong></center>
-<center>(Proyectos con actualización menor a 3 años)</center><br><br>
+<center><strong><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </strong></center>
+<center>(Proyectos que se encuentran en actualización)</center><br><br>
 
 <div class="row">
 <br>
@@ -39,9 +39,10 @@
 		  <th scope="col"><center>No°</center></th>
 	      <th scope="col"><center>Institución</center></th>
 	      <!-- <th scope="col"><center>Proyecto</center></th> -->
-		  <th scope="col"><center>Fecha de autorización</center></th>
+		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
-		  <th scope="col"><center>Estatus</center>	</th>
+		  <th scope="col"><center>Inicio de actualización </center></th>
+		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
 	      
@@ -63,21 +64,22 @@
  
  
 
- 
- 
+ $buscar= $_POST["buscar"];
 include 'conexionbd.php';
-$sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral where fecha_autorizacion!=''";
+$sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 $result = mysqli_query($conn, $sql);
-
-
 
 while($crow = mysqli_fetch_assoc($result)){?>
 <!-- Se declara la variable para y se hace la operacion de fechas, para conocer la antiguedad del proyecto -->
-<?php $resultado= $anoactual-$crow['fecha1'];
+<?php 
+
+ //se agrego (int) por que la nueva version de PHP pide que se convierta la varible y se pueda realizar la operacion aritmetica
+			// echo $resultado= (int)$anoactual+(int)$crow['ano'];
+	$resultado= (int)$anoactual-(int)$crow['fecha1'];
+	
 	
 
-
-	if ($resultado<=3) {
+	if ($resultado!=1 and $resultado!=2 and $resultado!=3) {
 	
 ?> 
 		<tbody>
@@ -86,8 +88,9 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
 		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
+		  <td><center><?php echo "16/01/2024" ?></center></td>
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
-		  <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td>
+		  <!-- <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td> -->
 		  
 		      
 	    </tr>

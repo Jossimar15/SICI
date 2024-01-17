@@ -59,7 +59,7 @@ $proyecdisponibles3= $anoactual-3;
 
 $buscar= $_POST["buscar"];
 include 'conexionbd.php';
- $sql = "SELECT *, SUBSTRING(fecha_de_modificacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
+ $sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 //  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
 $result = mysqli_query($conn, $sql);
 
@@ -70,7 +70,8 @@ while($crow = mysqli_fetch_assoc($result)){
 			// echo $resultado= (int)$anoactual+(int)$crow['ano'];
 		
 		$resultado = (int)$anoactual-(int)$crow['ano'];
-		if ($resultado<=3) {
+		
+		if ($resultado<=3 or $resultado<=2) {
 			
 	
 		?>
@@ -78,7 +79,7 @@ while($crow = mysqli_fetch_assoc($result)){
 		<tbody>
 	    <tr>
 	      <td><center></center><?php echo $crow['secretaria'];?></td>
-	      <td><center><?php echo $crow['fecha_de_modificacion'];?></center></td>
+	      <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 	      <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 	      
 	      

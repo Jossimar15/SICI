@@ -19,7 +19,7 @@
 
 <br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultadosectorcentral.php">
+<form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
 <div class="row">
 
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Busca organigrama de institución"></div>
@@ -64,10 +64,10 @@
  
  
 
- 
+
  
 include 'conexionbd.php';
-$sql = "SELECT *, SUBSTRING(fecha_aprobacion, -4) AS fecha1 from lista";
+$sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral";
 $result = mysqli_query($conn, $sql);
 
 
@@ -82,14 +82,14 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	
 	
 
-	if ($resultado!=3) {
+	if ($resultado!==1 and $resultado!=2 and $resultado!=3) {
 	
 ?> 
 		<tbody>
 	    <tr>
 		  <td><center><?php echo $crow['id'];?></center></td>
-	      <td><center><?php echo $crow['nombre_institucion'];?></center></td>
-		  <td><center><?php echo $crow['fecha_aprobacion'];?></center></td>
+	      <td><center><?php echo $crow['secretaria'];?></center></td>
+		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 		  <td><center><?php echo "16/01/2024" ?></center></td>
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
