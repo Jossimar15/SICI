@@ -42,6 +42,7 @@
 		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
 		  <th scope="col"><center>Inicio de actualización </center></th>
+		  <th scope="col"><center>Estatus </center></th>
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
