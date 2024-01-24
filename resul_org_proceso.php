@@ -42,6 +42,7 @@
 		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
 		  <th scope="col"><center>Inicio de actualización </center></th>
+		  <th scope="col"><center>Estatus </center></th>
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
@@ -64,7 +65,7 @@
  
  
 
- $buscar= $_POST["buscar"];
+$buscar= $_POST["buscar"];
 include 'conexionbd.php';
 $sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 $result = mysqli_query($conn, $sql);
@@ -89,6 +90,15 @@ while($crow = mysqli_fetch_assoc($result)){?>
 		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 		  <td><center><?php echo "16/01/2024" ?></center></td>
+		  <form method="POST" action="detalles_org_proceso.php">
+	      <td>
+	      </td>
+	      <td><center><button class="btn btn-primary" type="submit">Ver detalles</button></center></td>
+	      <input type="hidden" name="idsecretaria" value="<?php echo $crow['id_fech'];?>" />
+	      <input type="hidden" name="idsecretaria2" value="<?php echo $crow['id_secretaria'];?>" />
+		  <input type="hidden" name="secretaria" value="<?php echo $crow['secretaria'];?>" />
+
+	      </form> 
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
 		  <!-- <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td> -->
 		  
