@@ -19,9 +19,9 @@
 				$secretaria= $_POST["secretaria"];// id de tabla sectorcentral
     			
 
-    			echo "$id";
-				echo "$id22";
-				echo "$secretaria";
+    			// echo "$id";
+				// echo "$id22";
+				// echo "$secretaria";
     			
     			
     		
@@ -29,10 +29,10 @@
 
 
 
-
-<center><strong><h4>SITUACION ACTUAL DEL PROYECTO DE ORGANIGRAMA</h4> </strong></center>
-<center>(Proyectos que se encuentran en actualización)</center><br><br>
-
+<br><br>
+<center><strong><h3>PROCESO DE ACTUALIZACIÓN DEL PROYECTO DE ORGANIGRAMA</h3></strong></center><center><h4><?php echo "$secretaria"; ?></h4></center>
+<!-- <center>(Proyectos que se encuentran en actualización)</center> -->
+<br><br>
 
 <div class="container">
 <table class="table">
@@ -66,9 +66,11 @@ while($row = mysqli_fetch_array($res_consulta))
 if($i==0||($max_cols == 0)){
     echo "<tr>";
 }
-$nombre = $row['fecha_de_modificacion'];
-$id = $row['id_fech'];
-echo "<td><center>".$id."<br>". $nombre."</center></td>";
+$fecha = $row['fecha_de_modificacion'];
+$estatus= $row['estatus'];
+$comentario = $row['comentario'];
+
+echo "<td><center>".$estatus."<br><strong>Fecha: </strong>". $fecha."<br><br>Observaciones<p><p>".$comentario."</center></td>";
 
 if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($total_prods-1)){
     echo "<tr>";
