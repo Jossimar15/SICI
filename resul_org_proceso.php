@@ -36,12 +36,12 @@
 		<table class="table">
 	  <thead>
 	    <tr>
-		  <th scope="col"><center>No°</center></th>
+		  
 	      <th scope="col"><center>Institución</center></th>
 	      <!-- <th scope="col"><center>Proyecto</center></th> -->
 		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
-		  <th scope="col"><center>Inicio de actualización </center></th>
+		  <!-- <th scope="col"><center>Inicio de actualización </center></th> -->
 		  <th scope="col"><center>Estatus </center></th>
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
@@ -85,11 +85,12 @@ while($crow = mysqli_fetch_assoc($result)){?>
 ?> 
 		<tbody>
 	    <tr>
-		  <td><center><?php echo $crow['id'];?></center></td>
+		  
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
 		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
-		  <td><center><?php echo "16/01/2024" ?></center></td>
+		 
+		  <td><center><?php echo $crow['estatus']; ?></center></td>
 		  <form method="POST" action="detalles_org_proceso.php">
 	      <td>
 	      </td>

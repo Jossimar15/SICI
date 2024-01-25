@@ -19,8 +19,8 @@
 				$secretaria= $_POST["secretaria"];// id de tabla sectorcentral
     			
 
-    			// echo "$id";
-				// echo "$id22";
+    			echo "$id";
+				echo "$id22";
 				// echo "$secretaria";
     			
     			
@@ -51,10 +51,10 @@
 		
 <?php
 include 'conexionbd.php';
-$sql = "select * from fechasectocentral ORDER BY fecha_de_modificacion DESC";
+$sql = "select * from fechasectocentral where id_secretaria = $id22 ORDER BY fecha_de_modificacion DESC";
 $res_consulta = mysqli_query($conn, $sql);
 $total_prods = mysqli_num_rows($res_consulta);
-$x=1;
+$x=0;
 $i = 0; 
 $max_cols = 6; // limite de columnas (celdas) por fila
 
@@ -66,14 +66,17 @@ while($row = mysqli_fetch_array($res_consulta))
 if($i==0||($max_cols == 0)){
     echo "<tr>";
 }
+
 $fecha = $row['fecha_de_modificacion'];
 $estatus= $row['estatus'];
 $comentario = $row['comentario'];
+echo $i;
 
-echo "<td><center>".$estatus."<br><strong>Fecha: </strong>". $fecha."<br><br>Observaciones<p><p>".$comentario."</center></td>";
+echo "<td><center><strong>Estatus: </strong>".$estatus."<br><strong>Fecha: </strong>". $fecha."<br><strong>Observaciones</strong><p><p>".$comentario."</center></td>";
 
 if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($total_prods-1)){
     echo "<tr>";
+	
 }
 $i++;
     
