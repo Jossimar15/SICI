@@ -15,12 +15,12 @@
 
     	<?php 
     			$id= $_POST["idsecretaria"]; // id de tabla fechasectocentral
-				$id22= $_POST["idsecretaria2"];// id de tabla sectorcentral
+				$id_secretaria= $_POST["idsecretaria2"];// id de tabla sectorcentral
 				$secretaria= $_POST["secretaria"];// id de tabla sectorcentral
     			
 
     			// echo "$id";
-				// echo "$id22";
+				echo "$id_secretaria";
 				// echo "$secretaria";
     			
     			
@@ -51,7 +51,7 @@
 		
 <?php
 include 'conexionbd.php';
-$sql = "select * from fechasectocentral ORDER BY fecha_de_modificacion DESC";
+$sql = "select * from fechasectocentral where id_secretaria=".$id_secretaria." ORDER BY fecha_de_modificacion DESC";
 $res_consulta = mysqli_query($conn, $sql);
 $total_prods = mysqli_num_rows($res_consulta);
 $x=1;

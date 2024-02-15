@@ -12,8 +12,6 @@ if (!$conn) {
 }
 
 //esta parte es un objeto para realizar la paginacion 
-
-
 try {
       $base_de_datos = new PDO('mysql:host=localhost;dbname=' . $database, $username, $password);
       $base_de_datos->query("set names utf8;");
@@ -23,7 +21,6 @@ try {
   } catch (Exception $e) {
       echo "Ocurrió algo con la base de datos: " . $e->getMessage();
   }
-
 
 
  ?>

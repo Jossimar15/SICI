@@ -42,7 +42,7 @@
 		  <th scope="col"><center>Ultima autorización</center></th>
 	      <th scope="col"><center>Antiguedad </center></th>
 		  <th scope="col"><center>Inicio de actualización </center></th>
-		  <th scope="col"><center>Estatus </center></th>
+		  <!-- <th scope="col"><center>Estatus </center></th> -->
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
@@ -92,7 +92,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
 		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
-		  <td><center><?php echo "16/01/2024" ?></center></td>
+		  <!-- <td><center><?php echo "" ?></center></td> -->
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
 		  <!-- <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td> -->
 		  
