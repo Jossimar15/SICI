@@ -89,9 +89,9 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
 		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
-		 
+		 	
 		  <td><center><?php echo $crow['estatus']; ?></center></td>
-		  <form method="POST" action="detalles_org_proceso.php">
+		  <form method="GET" action="detalles_org_proceso.php">
 	      <td>
 	      </td>
 	      <td><center><button class="btn btn-primary" type="submit">Ver detalles</button></center></td>

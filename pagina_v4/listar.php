@@ -41,7 +41,7 @@ $conteo = $sentencia->fetchObject()->conteo;
 $paginas = ceil($conteo / $productosPorPagina);
 
 # Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=2  LIMIT ? OFFSET ?");
+$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=2 ORDER BY fecha_de_modificacion desc LIMIT ? OFFSET ? ");
 $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 # Y más abajo los dibujamos...

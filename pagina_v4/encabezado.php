@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="./css/estilo.css">
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="//parzibyte.me/blog">Paginación con PHP y MySQL - By Parzibyte</a>
@@ -37,6 +37,6 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> -->
 <div class="container">
     <div class="row">
