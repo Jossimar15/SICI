@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -19,12 +20,29 @@
     <div class="" id="contenido">
 
     	<?php 	
+$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$components = parse_url($url);
+parse_str($components['query'], $results);
+$id24= $_GET["idsecretaria"];
+$id25= $_GET["idsecretaria2"];
+// echo($results['idsecretaria']."<br>");
 
-			
 
-    			$id= $_POST["idsecretaria"]; // id de tabla fechasectocentral
-				$id22= $_POST["idsecretaria2"];// id de tabla sectorcentral
-				$secretaria= $_POST["secretaria"];// id de tabla sectorcentral
+
+echo $url;
+// $id22=$results['idsecretaria2'];
+
+// echo $url;
+// $components = parse_url($url);
+// parse_str($components['query'], $results);
+// echo($results['pagina2']);
+
+
+		// $enlace_actual = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+		// echo $enlace_actual;
+    	// 		$id= $_GET["idsecretaria"]; // id de tabla fechasectocentral
+		// 		$id22= $_GET["idsecretaria2"];// id de tabla sectorcentral
+		// 		// $secretaria= $_POST["secretaria"];// id de tabla sectorcentral
     			
 
     			// echo "$id";
@@ -37,7 +55,7 @@
 				$productosPorPagina = 3;
 				// Por defecto es la página 1; pero si está presente en la URL, tomamos esa
 				$pagina = 1;
-				if (isset($_GET["pagina"])) {
+				if (isset ($_GET["pagina"])) {
 					$pagina = $_GET["pagina"];
 				}
 				# El límite es el número de productos por página
@@ -45,13 +63,13 @@
 				# El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 				$offset = ($pagina - 1) * $productosPorPagina;
 				# Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-				$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral");
+				$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral where id_secretaria=$id25");
 				$conteo = $sentencia->fetchObject()->conteo;
 				# Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 				$paginas = ceil($conteo / $productosPorPagina);
 				
 				# Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-				$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=2 ORDER BY fecha_de_modificacion desc LIMIT ? OFFSET ? ");
+				$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=$id25 ORDER BY fecha_de_modificacion desc LIMIT ? OFFSET ? ");
 				$sentencia->execute([$limit, $offset]);
 				$productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 				# Y más abajo los dibujamos...
@@ -126,7 +144,12 @@
 								<!-- Mostramos enlaces para ir a todas las páginas. Es un simple ciclo for-->
 								<?php for ($x = 1; $x <= $paginas; $x++) { ?>
 									<li class="<?php if ($x == $pagina) echo "active" ?>">
-										<a href="./detalles_org_proceso.php?pagina=<?php echo $x ?>">
+										<a href="./detalles_org_proceso.php?pagina=<?php echo $x;?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>">
+										
+										<?php 
+										
+										
+										?>
 											<?php echo $x ?></a>
 									</li>
 								<?php } ?>
@@ -152,3 +175,4 @@
 </div>
 </body>
 </html> 
+

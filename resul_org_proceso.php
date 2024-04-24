@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 	<!-- <meta charset="UTF-8"> -->
@@ -91,13 +91,13 @@ while($crow = mysqli_fetch_assoc($result)){?>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 		 	
 		  <td><center><?php echo $crow['estatus']; ?></center></td>
-		  <form method="GET" action="detalles_org_proceso.php">
+		  <form method="GET" action="detalles_org_proceso.php?id22=<?php echo $crow['id_secretaria']; ?>">
 	      <td>
 	      </td>
 	      <td><center><button class="btn btn-primary" type="submit">Ver detalles</button></center></td>
 	      <input type="hidden" name="idsecretaria" value="<?php echo $crow['id_fech'];?>" />
 	      <input type="hidden" name="idsecretaria2" value="<?php echo $crow['id_secretaria'];?>" />
-		  <input type="hidden" name="secretaria" value="<?php echo $crow['secretaria'];?>" />
+		  
 
 	      </form> 
 		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
