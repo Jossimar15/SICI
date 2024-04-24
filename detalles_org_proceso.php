@@ -56,7 +56,7 @@ echo $url;
 				// Por defecto es la página 1; pero si está presente en la URL, tomamos esa
 				$pagina = 1;
 				if (isset ($_GET["pagina"])) {
-					$pagina = $_GET["pagina"];
+					$pagina = $_GET["pagina"]; 
 				}
 				# El límite es el número de productos por página
 				$limit = $productosPorPagina;
@@ -135,7 +135,7 @@ echo $url;
 								<!-- Si la página actual es mayor a uno, mostramos el botón para ir una página atrás -->
 								<?php if ($pagina > 1) { ?>
 									<li>
-										<a href="./detalles_org_proceso.php?pagina=<?php echo $pagina - 1 ?>">
+										<a href="./detalles_org_proceso.php?pagina=<?php echo $pagina - 1 ?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>">
 											<span aria-hidden="true">&laquo;</span>
 										</a>
 									</li>
@@ -156,7 +156,7 @@ echo $url;
 								<!-- Si la página actual es menor al total de páginas, mostramos un botón para ir una página adelante -->
 								<?php if ($pagina < $paginas) { ?>
 									<li>
-										<a href="./detalles_org_proceso.php?pagina=<?php echo $pagina + 1 ?>">
+										<a href="./detalles_org_proceso.php?pagina=<?php echo $pagina + 1 ?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>">
 											<span aria-hidden="true">&raquo;</span>
 										</a>
 									</li>
