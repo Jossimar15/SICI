@@ -59,8 +59,12 @@ $proyecdisponibles3= $anoactual-3;
 
 $buscar= $_POST["buscar"];
 include 'conexionbd.php';
- $sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
+//  $sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 //  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
+// $sql=" SELECT * , MAX(fecha_de_verificacion), SUBSTRING(fecha_de_verificacion, -4) AS fecha1 from fechasectocentral where secretaria  like '%$buscar%' and estatus='autorizado' group by secretaria";
+
+$sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where secretaria  like '%$buscar%' and fecha_de_verificacion = max_fecha order by id_secretaria ";
+
 $result = mysqli_query($conn, $sql);
 
 while($crow = mysqli_fetch_assoc($result)){ 
@@ -69,7 +73,7 @@ while($crow = mysqli_fetch_assoc($result)){
 		<?php //se agrego (int) por que la nueva version de PHP pide que se convierta la varible y se pueda realizar la operacion aritmetica
 			// echo $resultado= (int)$anoactual+(int)$crow['ano'];
 		
-		$resultado = (int)$anoactual-(int)$crow['ano'];
+		$resultado = (int)$anoactual-(int)$crow['fecha1'];
 		
 		if ($resultado<=3 or $resultado<=2) {
 			
@@ -79,8 +83,9 @@ while($crow = mysqli_fetch_assoc($result)){
 		<tbody>
 	    <tr>
 	      <td><center></center><?php echo $crow['secretaria'];?></td>
-	      <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
+	      <td><center><?php echo $crow['fecha_de_verificacion'];?></center></td>
 	      <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
+		  
 	      
 	      
 	      <form method="POST" action="actualizard_sc.php">

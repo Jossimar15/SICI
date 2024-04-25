@@ -25,7 +25,7 @@
 
 <?php
 
-$sql = "SELECT * FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria";
+$sql = "SELECT * FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentra$sql=" SELECT *, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 from fechasectocentral where fecha_de_verificacion!='' and estatus='autorizado' group by secretaria";
 
 
 

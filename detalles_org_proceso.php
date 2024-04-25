@@ -1,5 +1,5 @@
 
-<!DOCTYPE html> 
+<!DOCTYPE html>  
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -81,7 +81,7 @@ echo $url;
 						<table class="table ">
 							<thead>
 						
-								<th width="250"><center><h5>Nombre de la Institucion</center></th>
+								<th width="300"><center><h5>Nombre de la Institucion</center></th>
 								<th><center><h5>Observacion o comentario</center></th>
 								<th></th>
 								<th></th>
@@ -104,7 +104,7 @@ echo $url;
 										}
 										
 										
-										echo "<td>". $producto->secretaria."<br>Fecha: ". $producto->fecha_de_modificacion."<br></td>";
+										echo "<td>". $producto->secretaria."<br>Fecha de observacion: ". $producto->fecha_de_modificacion."<br></td>";
 										echo "<td>". $producto->comentario."<br></td>";
 										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
