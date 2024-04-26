@@ -63,7 +63,7 @@ include 'conexionbd.php';
 //  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
 // $sql=" SELECT * , MAX(fecha_de_verificacion), SUBSTRING(fecha_de_verificacion, -4) AS fecha1 from fechasectocentral where secretaria  like '%$buscar%' and estatus='autorizado' group by secretaria";
 
-$sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where secretaria  like '%$buscar%' and fecha_de_verificacion = max_fecha order by id_secretaria ";
+$sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where  secretaria  like '%$buscar%' and estatus ='autorizado' and fecha_de_verificacion = max_fecha order by id_secretaria ";
 
 $result = mysqli_query($conn, $sql);
 
