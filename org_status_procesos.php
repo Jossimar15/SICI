@@ -9,7 +9,8 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+		<link rel="stylesheet" href="./pagina_v4/css/2.css">
+		
 </head>
 <body>
 <?php include 'menu2.php'; ?>
@@ -33,25 +34,7 @@
 <div class="row">
 <br>
 
-		<table class="table">
-	  <thead>
-	    <tr>
-		  <th scope="col"><center>No°</center></th>
-	      <th scope="col"><center>Institución</center></th>
-	      <!-- <th scope="col"><center>Proyecto</center></th> -->
-		  <th scope="col"><center>Ultima autorización</center></th>
-	      <th scope="col"><center>Antiguedad </center></th>
-		  <th scope="col"><center>Inicio de actualización </center></th>
-		  <!-- <th scope="col"><center>Estatus </center></th> -->
-		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
-          <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
-	      
-	      
-	      
-
-
-	    </tr>
-	  </thead>
+	
 	  
 <?php  
 
@@ -68,7 +51,7 @@
 
  
 include 'conexionbd.php';
-$sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral";
+$sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral order by id_secretaria desc";
 $result = mysqli_query($conn, $sql);
 
 
@@ -87,17 +70,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	
 ?> 
 		<tbody>
-	    <tr>
-		  <td><center><?php echo $crow['id'];?></center></td>
-	      <td><center><?php echo $crow['secretaria'];?></center></td>
-		  <td><center><?php echo $crow['fecha_autorizacion'];?></center></td>
-		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
-		  <!-- <td><center><?php echo "" ?></center></td> -->
-		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
-		  <!-- <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td> -->
-		  
-		      
-	    </tr>
+
 <?php
 }else {echo "";}}
 
@@ -109,3 +82,151 @@ while($crow = mysqli_fetch_assoc($result)){?>
 </div>
 </body>
 </html>
+
+<?php	
+include_once "conexionbd.php";
+
+# Cuántos productos mostrar por página
+$productosPorPagina = 10;
+// Por defecto es la página 1; pero si está presente en la URL, tomamos esa
+$pagina = 1;
+if (isset ($_GET["pagina"])) {
+	$pagina = $_GET["pagina"]; 
+}
+# El límite es el número de productos por página
+$limit = $productosPorPagina;
+# El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
+$offset = ($pagina - 1) * $productosPorPagina;
+# Necesitamos el conteo para saber cuántas páginas vamos a mostrar
+$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral ");
+$conteo = $sentencia->fetchObject()->conteo;
+# Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
+$paginas = ceil($conteo / $productosPorPagina);
+
+# Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
+$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!=''  and fecha_de_verificacion = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
+$sentencia->execute([$limit, $offset]);
+$productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
+// SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral
+
+
+
+?>
+
+<div class="col-xs-12">
+						
+						
+						<table class="table ">
+							<thead>
+
+								
+								<th width="300"><center><h5>Nombre de la Institucion</center></th>
+								<th scope="col"><center>Fecha de autorización</center></th>
+								<th scope="col"><center>Antiguedad</center></th>
+								<th scope="col"><center>Estatus</center>	</th>
+								<th scope="col"><center>Año de actualización</center>	</th>
+								<th></th>
+								<th></th>
+							  
+							
+							</thead>
+							<tbody>
+
+							
+
+							<?php 
+							
+
+							foreach ($productos as $producto) { 
+								$ress= $anoactual- $producto->fecha1;
+							if ($producto->fecha1 < 2021) {
+								// echo $ress;
+								?>	
+
+								<!--  -->
+								<?php 
+				
+								$x=1;
+								$i = 0; 
+								$max_cols = 6;
+				
+								
+										
+													
+										if($i==0||($max_cols == 0)){
+											echo "<tr>";
+										}
+										
+										// $ress= $anoactual- $producto->fecha1;
+										// echo $anoactual."<br>";
+										// echo $producto->fecha1;
+									
+
+										
+										echo "<td><center>". $producto->secretaria."</center></td>";
+										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
+										
+										echo "<td><center> Hace ".$ress ." años </center></td>";
+										echo "<td><center> En actualizacion  </center></td>";
+										echo "<td><center>".$producto->fecha1."  </center></td>";
+									
+										
+										
+										
+										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
+											echo "</tr>";
+										}
+										$i++;
+								 
+									
+									}
+								?>
+								
+									
+								
+							<?php } ?>
+							</tbody>
+						</table>
+						<nav>
+							<div class="row">
+								<div class="col-xs-12 col-sm-6">
+				
+									<!-- <p>Mostrando <?php echo $productosPorPagina ?> de <?php echo $conteo ?> productos disponibles</p> -->
+								</div>
+								<div class="col-xs-12 col-sm-6">
+									<!-- <p>Página <?php echo $pagina ?> de <?php echo $paginas ?> </p> -->
+								</div>
+							</div>
+							<ul class="pagination">
+								<!-- Si la página actual es mayor a uno, mostramos el botón para ir una página atrás -->
+								<?php if ($pagina > 1) { ?>
+									<li>
+										<a href="./org_status_procesos.php?pagina=<?php echo $pagina - 1 ?>">
+											<span aria-hidden="true">&laquo;</span>
+										</a>
+									</li>
+								<?php } ?>
+				
+								<!-- Mostramos enlaces para ir a todas las páginas. Es un simple ciclo for-->
+								<?php for ($x = 1; $x <= $paginas; $x++) { ?>
+									<li class="<?php if ($x == $pagina) echo "active" ?>">
+										<a href="./org_status_procesos.php?pagina=<?php echo $x;?>">
+										
+										<?php 
+										
+										
+										?>
+											<?php echo $x ?></a>
+									</li>
+								<?php } ?>
+								<!-- Si la página actual es menor al total de páginas, mostramos un botón para ir una página adelante -->
+								<?php if ($pagina < $paginas) { ?>
+									<li>
+										<a href="./org_status_procesos.php?pagina=<?php echo $pagina + 1 ?>">
+											<span aria-hidden="true">&raquo;</span>
+										</a>
+									</li>
+								<?php } ?>
+							</ul>
+						</nav>
+					</div>	

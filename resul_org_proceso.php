@@ -17,7 +17,7 @@
 	<div class="container">
   <!-- Content here -->
 
-<br><br>
+<br><br> 
 
 <form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
 <div class="row">

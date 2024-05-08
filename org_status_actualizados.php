@@ -19,7 +19,7 @@
 
 <br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultados_org_actualizados.php">
+<form method="GET" enctype="multipart/form-data" action="resultados_org_actualizados.php">
 <div class="row">
 
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Busca organigrama de institución"></div>
@@ -34,22 +34,7 @@
 <br>
 
 		<table class="table">
-	  <thead>
-	    <tr>
-		  <th scope="col"><center>No°</center></th>
-	      <th scope="col"><center>Institución</center></th>
-	      <!-- <th scope="col"><center>Proyecto</center></th> -->
-		  <th scope="col"><center>Fecha de autorización</center></th>
-	      <th scope="col"><center>Antiguedad </center></th>
-		  <th scope="col"><center>Estatus</center>	</th>
-          <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
-	      
-	      
-	      
 
-
-	    </tr>
-	  </thead>
 	  
 <?php  
 
@@ -86,17 +71,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	if ($resultado<=3) {
 	
 ?> 
-		<tbody>
-	    <tr>
-		  <td><center><?php echo $crow['id_fech'];?></center></td>
-	      <td><center><?php echo $crow['secretaria'];?></center></td>
-		  <td><center><?php echo $crow['fecha_de_verificacion'];?></center></td>
-		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
-		  <!-- <td><center><?php //if ($crow['fecha1']<=$proyecdisponibles1 or $crow['fecha1']<=$proyecdisponibles2 or $crow['fecha1']<=$proyecdisponibles3) {echo "Proyecto actualizado";}else{echo "Requiere actualizacion";}?></center></td> -->
-		  <td><center><a href="archivos/ejemplo.pdf" target="_blank">Descargar proyecto</a></center></td>
-		  
-		      
-	    </tr>
+	
 <?php
 }else {echo "";}}
 
@@ -138,6 +113,7 @@ $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
 
+
 ?>
 
 <div class="col-xs-12">
@@ -150,7 +126,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								<th width="300"><center><h5>Nombre de la Institucion</center></th>
 								<th scope="col"><center>Fecha de autorización</center></th>
 								<th scope="col"><center>Antiguedad</center></th>
-								<th scope="col"><center>Estatus</center>	</th>
+								<th scope="col"><center>Proyecto</center>	</th>
 								<th></th>
 								<th></th>
 							  
@@ -166,20 +142,25 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$i = 0; 
 								$max_cols = 6;
 				
-														
+													
 										if($i==0||($max_cols == 0)){
 											echo "<tr>";
 										}
 										
+										
 										echo "<td><center>". $producto->id_fech."</center></td>";
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
-										echo "<td><center> Hace ".$resultado." años</center></td>";
+										echo "<td><center> Hace ". $anoactual- $producto->fecha1." años</center></td>";
+										
+										
+										
+										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
 											echo "</tr>";
 										}
 										$i++;
-								
+								 
 								
 								
 								?>
