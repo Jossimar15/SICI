@@ -14,6 +14,116 @@
 <body>
 <?php include 'menu2.php'; ?>
 
+<?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "sici";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+//Aqui inicia el conteo de cuantos proyectos de organigrama se encuentran en el proceso de actualización
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Consulta SQL
+$sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM fechasectocentral) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Proceso" AND fecha_de_verificacion = max_fecha) AS subconsulta';
+$result = $conn->query($sql);
+
+// Verificar si hay resultados
+if ($result->num_rows > 0) {
+    // Imprimir el resultado
+    $row = $result->fetch_assoc();
+    // echo "Total: " . $row["total"];
+} else {
+    echo "0 resultados";
+}
+
+// Cerrar conexión
+// $conn->close();
+
+//Aqui inicia el conteo de cuantos proyectos de organigrama ya estan actualizados
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Consulta SQL
+$sql2 = 'SELECT COUNT(*) AS total2 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM fechasectocentral) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Autorizado" AND fecha_de_verificacion = max_fecha) AS subconsulta';
+$result2 = $conn->query($sql2);
+
+// Verificar si hay resultados
+
+if ($result2->num_rows > 0 ) {
+    // Imprimir el resultado
+    $row2 = $result2->fetch_assoc();
+    // echo "Total: " . $row["total"];
+} else {
+    echo "0 resultados";
+}
+
+// Cerrar conexión
+// $conn->close();
+
+
+//El siguiente codigo determinara cuantos proyectos actualizados existen
+include 'conexionbd.php';
+$sql4 = "SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha4 
+         FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  
+                max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha 
+                FROM fechasectocentral) con_max_fecha 
+         WHERE fecha_de_verificacion != '' AND estatus = 'autorizado' AND fecha_de_verificacion = max_fecha 
+         ORDER BY id_secretaria";
+$result4 = mysqli_query($conn, $sql4);
+
+$total_registros = 0; // Variable para contar el número total de registros
+
+while ($crow4 = mysqli_fetch_assoc($result4)) {
+    $fechadeactualizacion = date('2019');
+    $anoactual = date('Y');
+    $mesactual = date('m');
+    $ano = $anoactual - $crow4['fecha4'];
+    $resultado = (int)$anoactual - (int)$crow4['fecha4'];
+
+    if ($resultado <= 3 && $crow4['estatus'] == "autorizado") {
+        $total_registros++; // Aumenta el contador de registros
+       
+    }
+}
+//El siguiente codigo determinara cuantos proyectos desactualizados existen
+
+$sql5 = "SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha5 
+         FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  
+                max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha 
+                FROM fechasectocentral) con_max_fecha 
+         WHERE fecha_de_verificacion != '' AND estatus = 'autorizado' AND fecha_de_verificacion = max_fecha 
+         ORDER BY id_secretaria";
+$result5 = mysqli_query($conn, $sql5);
+
+$total_registros2 = 0; // Variable para contar el número total de registros
+
+while ($crow5 = mysqli_fetch_assoc($result5)) {
+   
+    $resultado5 = (int)$anoactual - (int)$crow5['fecha5'];
+
+    if ($resultado5 > 3 && $crow5['estatus'] == "autorizado") {
+        $total_registros2++; // Aumenta el contador de registros
+       
+    }
+}
+
+echo $total_registros2;
+
+
+
+
+
+
+
+?>
+
 	<div class="container">
   <!-- Content here -->
 <br><br><center><h3>ESTATUS DE ORGANIGRAMAS</h3></center><br><br>
@@ -22,21 +132,21 @@
 <div class="row">
 	
  <!-- <button class="btn btn-primary" type="submit" >Modificar</button>  <a class="btn btn-primary" href="#" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Eliminar</a><br></div>  -->
-<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."><strong><h3>30</strong> <br> <a class="btn btn-primary" href="org_status_actualizados.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Actualizados</a> </center> </div>
-<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."> <strong><h3>39</strong> <br><a class="btn btn-primary" href="org_status_procesos.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">En proceso de actualización</a></center> </div>
-<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."><strong><h3>6</strong> <br><a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Sin actualizar</a></center> </div>
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."><strong><h3><?php echo $total_registros ?></strong> <br> <a class="btn btn-primary" href="org_status_actualizados.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Actualizados</a> </center> </div>
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."> <strong><h3><?php echo $row["total"]; ?></strong> <br><a class="btn btn-primary" href="org_status_procesos.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">En proceso de actualización</a></center> </div>
+<div class="col-md-4"><center><img src="imagenes/contrato.png" class="d-block w-50" alt="..."><strong><h3><?php echo $total_registros2 ?></strong> <br><a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Sin actualizar</a></center> </div>
 </div>
 
 <br><br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultadosectorcentral.php">
+<!-- <form method="POST" enctype="multipart/form-data" action="resultadosectorcentral.php">
 <div class="row">
 
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Buscar"></div>
-  		 <div class="col-md-2 "><button class="btn btn-primary" type="submit" >Buscar</button>  <!--   <a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Agregar</a> <button class="btn btn-primary" type="submit" >Modificar</button>  <a class="btn btn-primary" href="#" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Eliminar</a><br></div> -->
-		<input type="hidden" name="sector" value="buscacentral" /><br><br><br>
-	</form>
-</div>
+  		 <div class="col-md-2 "><button class="btn btn-primary" type="submit" >Buscar</button>   <a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Agregar</a> <button class="btn btn-primary" type="submit" >Modificar</button>  <a class="btn btn-primary" href="#" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Eliminar</a><br></div> -->
+		<!-- <input type="hidden" name="sector" value="buscacentral" /><br><br><br>
+	</form> -->
+</div> 
 <!-- <center><strong><h4>ORGANIGRAMAS DE ATENCION INMEDIATA</h4> </strong></center>
 <center>(Proyectos con mas de 5 años sin actualizar)</center><br><br> -->
 

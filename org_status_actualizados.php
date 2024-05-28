@@ -68,7 +68,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	
 
 
-	if ($resultado<=3) {
+	if ($resultado==3) {
 	
 ?> 
 	
@@ -141,8 +141,11 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$x=1;
 								$i = 0; 
 								$max_cols = 6;
-				
-													
+								$ano= $anoactual- $producto->fecha1;
+								if($ano<=3){
+									
+												
+
 										if($i==0||($max_cols == 0)){
 											echo "<tr>";
 										}
@@ -151,10 +154,10 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										echo "<td><center>". $producto->id_fech."</center></td>";
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
-										echo "<td><center> Hace ". $anoactual- $producto->fecha1." años</center></td>";
+										echo "<td><center> Hace ". $ano." años</center></td>";
+										echo "<td><center> </center></td>";
 										
-										
-										
+									}	
 										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
 											echo "</tr>";

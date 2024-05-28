@@ -111,6 +111,9 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
 
 
+
+
+
 ?>
 
 <div class="col-xs-12">
@@ -138,7 +141,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							
 
 							foreach ($productos as $producto) { 
-								$ress= $anoactual- $producto->fecha1;
+								
 							if ($producto->fecha1 < 2021) {
 								// echo $ress;
 								?>	
@@ -149,11 +152,22 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$x=1;
 								$i = 0; 
 								$max_cols = 6;
-				
+								$estatus= $producto->estatus;
+								$fecha1= $producto->fecha1;
+								$ano= $anoactual- $producto->fecha1;
+								// echo $ano;
+								// echo $fecha1;
 								
+								if ($ano>3 and $estatus ="Proceso"){
+
+
+								
+
+								if($estatus=="Proceso" and $fecha1>3 ){//Status Aprobado,proceso,pendiente
 										
 													
 										if($i==0||($max_cols == 0)){
+											
 											echo "<tr>";
 										}
 										
@@ -166,25 +180,30 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
 										
-										echo "<td><center> Hace ".$ress ." años </center></td>";
+										echo "<td><center> Hace ".$ano ." años </center></td>";
 										echo "<td><center> En actualizacion  </center></td>";
 										echo "<td><center>".$producto->fecha1."  </center></td>";
-									
 										
+									
+									}		
 										
 										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
+											
 											echo "</tr>";
+											
+											
 										}
 										$i++;
-								 
+										
+										
 									
 									}
 								?>
 								
-									
 								
-							<?php } ?>
+								
+							<?php }	}?>
 							</tbody>
 						</table>
 						<nav>
@@ -230,3 +249,38 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							</ul>
 						</nav>
 					</div>	
+
+
+<?php 
+// Conexión a la base de datos
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "sici";
+
+// // Crear conexión
+// $conn = new mysqli($servername, $username, $password, $dbname);
+
+// // Verificar conexión
+// if ($conn->connect_error) {
+//     die("Conexión fallida: " . $conn->connect_error);
+// }
+
+// // Consulta SQL
+// $sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM fechasectocentral) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Proceso" AND fecha_de_verificacion = max_fecha) AS subconsulta';
+// $result = $conn->query($sql);
+
+// // Verificar si hay resultados
+// if ($result->num_rows > 0) {
+//     // Imprimir el resultado
+//     $row = $result->fetch_assoc();
+//     echo "Total: " . $row["total"];
+// } else {
+//     echo "0 resultados";
+// }
+
+// // Cerrar conexión
+// $conn->close();
+
+
+?>
