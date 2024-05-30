@@ -104,7 +104,7 @@ $conteo = $sentencia->fetchObject()->conteo;
 $paginas = ceil($conteo / $productosPorPagina);
 
 # Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!=''  and fecha_de_verificacion = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
+$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='Proceso'  and fecha_de_verificacion = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
 $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 // SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral
@@ -155,15 +155,16 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$estatus= $producto->estatus;
 								$fecha1= $producto->fecha1;
 								$ano= $anoactual- $producto->fecha1;
+								// echo $estatus;
 								// echo $ano;
 								// echo $fecha1;
 								
-								if ($ano>3 and $estatus ="Proceso"){
+								if ($ano>3 && $estatus ="Proceso"){
 
 
 								
 
-								if($estatus=="Proceso" and $fecha1>3 ){//Status Aprobado,proceso,pendiente
+								if($estatus=="Proceso" && $fecha1>3 ){//Status Aprobado,proceso,pendiente
 										
 													
 										if($i==0||($max_cols == 0)){

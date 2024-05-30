@@ -18,10 +18,10 @@
 
 	<div class="container">
   <!-- Content here -->
-<br><center><h3>PROYECTOS DE ORGANIGRAMA ACTUALIZADOS</h3></center>
-<center>(Proyectos con actualización menor a 3 años)</center><br><br>
+<br><center><h3>ORGANIGRAMAS QUE NECESITAN DE ACTUALIZACIÓN</h3></center>
+<center>(Proyectos que cuentan con mas de 3 años sin actualizarse)</center><br><br>
 
-<form method="GET" enctype="multipart/form-data" action="resultados_org_actualizados.php">
+<form method="POST" enctype="multipart/form-data" action="resultados_org_desactualizados.php">
 <div class="row">
 	
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Buscar"></div>
@@ -47,7 +47,7 @@ $proyecdisponibles2= $anoactual-2;
 $proyecdisponibles3= $anoactual-3;
  
 
-$buscar= $_GET["buscar"];
+$buscar= $_POST["buscar"];
 // echo $buscar;
 // $pagina = $_GET["pagina"];
 // include 'conexionbd.php';
@@ -94,11 +94,11 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 						<table class="table ">
 							<thead>
 
-								<th><center><h5>No</center></th>
+								
 								<th width="300"><center><h5>Nombre de la Institucion</center></th>
 								<th scope="col"><center>Fecha de autorización</center></th>
 								<th scope="col"><center>Antiguedad</center></th>
-								<th scope="col"><center>Proyecto</center>	</th>
+								<th scope="col"><center>Acción</center>	</th>
 								<th></th>
 								<th></th>
 							  
@@ -113,19 +113,20 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$x=1;
 								$i = 0; 
 								$max_cols = 6;
+								$estatus= $producto->estatus;
 								$ano= $anoactual- $producto->fecha1;
-								if($ano<=3){
+								if($ano>3 && $estatus="autorizado"){
 													
 										if($i==0||($max_cols == 0)){
 											echo "<tr>";
 										}
 										
 										
-										echo "<td><center>". $producto->id_fech."</center></td>";
+										
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
 										echo "<td><center> Hace ". $ano." años</center></td>";
-										echo "<td><center> </center></td>";
+										echo "<td><center><img src='./iconos/mas.png' alt='dd' width='15' height='15'></center></td>";
 										
 									
 										

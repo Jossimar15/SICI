@@ -141,8 +141,9 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								$x=1;
 								$i = 0; 
 								$max_cols = 6;
+								$estatus= $producto->estatus;
 								$ano= $anoactual- $producto->fecha1;
-								if($ano<=3){
+								if($ano<=3 && $estatus="autorizado"){//Status Aprobado,proceso,pendiente
 									
 												
 

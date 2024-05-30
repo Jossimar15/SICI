@@ -114,7 +114,7 @@ while ($crow5 = mysqli_fetch_assoc($result5)) {
     }
 }
 
-echo $total_registros2;
+// echo $total_registros2;
 
 
 
