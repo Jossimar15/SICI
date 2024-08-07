@@ -123,8 +123,8 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							<thead>
 
 								
-								<th width="300"><center><h5>Nombre de la Institucion</center></th>
-								<th scope="col"><center>Fecha de autorización</center></th>
+								<th width="300"><center>Nombre de la Institucion</th>
+								<th scope="col"><center>Ultima actualización</center></th>
 								<th scope="col"><center>Antiguedad</center></th>
 								<th scope="col"><center>Estatus</center>	</th>
 								<th scope="col"><center>Año de actualización</center>	</th>

@@ -30,7 +30,7 @@ $id25= $_GET["idsecretaria2"];
 
 
 
-echo $url;
+// echo $url;
 // $id22=$results['idsecretaria2'];
 
 // echo $url;
@@ -77,8 +77,21 @@ echo $url;
 				?>
 				
 					<div class="col-xs-12">
+					<div class="row">
+						<div class="col-md-6 offset-md-3"><h3><center>AVANCES DEL PROYECTO</center></h3></div>
 						
-						
+					</div><br><br>
+					<div class="col-md-3 offset-md-10">
+							<TABLE WIDTH="40%" >
+								<TR >
+									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar comentario " alt="..."></a></TD> 
+									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Grafica " alt="..."></a></TD> 
+									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
+								</TR>
+							</TABLE>
+						</div>
+
+						<!-- <br><center><h5>Avances del Proyecto</h5></center><br> -->
 						<table class="table ">
 							<thead>
 						

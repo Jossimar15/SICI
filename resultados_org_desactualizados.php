@@ -30,7 +30,15 @@
 	</form>
 </div>
 
-
+<div class="col-md-3 offset-md-10">
+							<TABLE WIDTH="40%" >
+								<TR >
+									 <TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar comentario " alt="..."></a></TD>  
+									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Reporte " alt="..."></a></TD> 
+									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
+								</TR>
+							</TABLE>
+						</div>
 
 <div class="row">
 
@@ -95,10 +103,10 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							<thead>
 
 								
-								<th width="300"><center><h5>Nombre de la Institucion</center></th>
-								<th scope="col"><center>Fecha de autorización</center></th>
+								<th width="300"><center>Nombre de la Institucion</center></th>
+								<th scope="col"><center>Ultima actualización</center></th>
 								<th scope="col"><center>Antiguedad</center></th>
-								<th scope="col"><center>Acción</center>	</th>
+								<th scope="col"><center>Proyecto</center>	</th>
 								<th></th>
 								<th></th>
 							  
@@ -126,7 +134,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
 										echo "<td><center> Hace ". $ano." años</center></td>";
-										echo "<td><center><img src='./iconos/mas.png' alt='dd' width='15' height='15'></center></td>";
+										echo "<td><center><a title='Regresar' href='org_status_procesos.php'><img src='./iconos/actualizar.png' alt='dd' width='37' height='37' title ='Iniciar actualizacion' ></a> &nbsp; <img src='./iconos/archivo.png' alt='dd' width='40' height='40' title ='Descargar ultimo proyecto actualizado' ></center></td>";
 										
 									
 										

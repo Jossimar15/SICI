@@ -43,6 +43,7 @@
 	      <th scope="col"><center>Antiguedad </center></th>
 		  <!-- <th scope="col"><center>Inicio de actualización </center></th> -->
 		  <th scope="col"><center>Estatus </center></th>
+		  <th></th>
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
@@ -93,9 +94,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 		 	
 		  <td><center><?php echo $crow['estatus']; ?></center></td>
 		  <form method="GET" action="detalles_org_proceso.php?id22=<?php echo $crow['id_secretaria']; ?>">
-	      <td>
-	      </td>
-	      <td><center><button class="btn btn-primary" type="submit">Detalles</button></center></td>
+		  <td><center><button class="btn btn-primary" type="submit">Detalles</button></center></td>
 	      <input type="hidden" name="idsecretaria" value="<?php echo $crow['id_fech'];?>" />
 	      <input type="hidden" name="idsecretaria2" value="<?php echo $crow['id_secretaria'];?>" />
 		  
