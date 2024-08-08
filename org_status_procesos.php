@@ -12,26 +12,48 @@
 		<link rel="stylesheet" href="./pagina_v4/css/2.css">
 		
 </head>
-<body>
+<body> 
 <?php include 'menu2.php'; ?>
 
 	<div class="container">
   <!-- Content here -->
 
-<br><br>
+<br>
 
-<form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
+<center><strong><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </strong></center>
+<center>(Proyectos que se encuentran en actualización)</center><br><br>
+<br>
+
+<!-- <form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
 <div class="row">
 
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Busca organigrama de institución"></div>
   		 <div class="col-md-2 "><button class="btn btn-primary" type="submit" >Buscar</button>  <!--   <a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Agregar</a> <button class="btn btn-primary" type="submit" >Modificar</button>  <a class="btn btn-primary" href="#" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Eliminar</a><br></div> -->
-		<input type="hidden" name="sector" value="buscacentral" /><br><br><br>
-	</form>
-</div>
-<center><strong><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </strong></center>
-<center>(Proyectos que se encuentran en actualización)</center><br><br>
+		<!-- <input type="hidden" name="sector" value="buscacentral" /><br><br><br>
+	</form> -->
+<!-- </div> -->
 
-<div class="row">
+<form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php" class="row g-3">
+  <div class="col-md-9">
+      <input type="text" class="form-control" name="buscar" id="text" placeholder="Buscar Organigrama de Institucion">
+  </div>
+  <div class="col-auto">
+    <button type="submit" name="sector" class="btn btn-primary mb-4">Buscar</button>
+  </div>
+  <div class="col-auto">
+		<TABLE WIDTH="40%" >
+			<!-- <TR > -->
+				<TD><a title="Regresar" href="org_status_procesos2.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar proyecto" alt="..."></a></TD> 
+				<TD><a title="Regresar" href="org_status_procesos3.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Datos estadisticos " alt="..."></a></TD> 
+				<TD><a title="Regresar" href="org_status_procesos4.php"><img src="iconos/impresora.png " width="40"  class="rounded float-start" title ="Imprimir " alt="..."></a></TD>
+				<TD><a title="Regresar" href="org_status_procesos5.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
+			<!-- </TR> -->
+		</TABLE>
+  </div>
+</form>
+
+
+
 <br>
 
 	
@@ -69,14 +91,14 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	if ($resultado!==1 and $resultado!=2 and $resultado!=3) {
 	
 ?> 
-		<tbody>
+		<!-- <tbody> -->
 
 <?php
 }else {echo "";}}
 
  ?>
-	  </tbody>
-	</table>
+	  <!-- </tbody> -->
+	<!-- </table> -->
 	</div>
 
 </div>
@@ -116,24 +138,27 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
 ?>
 
-<div class="col-xs-12">
+<div class="container">
+	<div class="row">
+  <!-- Contenido aquí -->
+
+	<div class="col-xs-12">
 						
 						
 						<table class="table ">
-							<thead>
-
+							<!-- <thead> -->
+				
 								
-								<th width="300"><center><h5>Nombre de la Institucion</center></th>
+								<th scope="col"><center>Nombre de la Institucion</center></th>
 								<th scope="col"><center>Fecha de autorización</center></th>
 								<th scope="col"><center>Antiguedad</center></th>
 								<th scope="col"><center>Estatus</center>	</th>
 								<th scope="col"><center>Año de actualización</center>	</th>
-								<th></th>
-								<th></th>
+								
 							  
 							
-							</thead>
-							<tbody>
+							<!-- </thead> -->
+							<!-- <tbody> -->
 
 							
 
@@ -205,8 +230,10 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								
 								
 							<?php }	}?>
-							</tbody>
+							<!-- </tbody> -->
 						</table>
+
+		
 						<nav>
 							<div class="row">
 								<div class="col-xs-12 col-sm-6">
@@ -250,6 +277,12 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							</ul>
 						</nav>
 					</div>	
+
+		</div>									
+	</div>
+</div>
+
+
 
 
 <?php 

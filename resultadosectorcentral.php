@@ -19,16 +19,33 @@
   <!-- Content here -->
 
 <br><br>
-<center><strong><h4>ORGANIGRAMAS QUE NECESITAN DE ACTUALIZACIÓN</h4> </strong></center>
+<div class="container">
+<center><strong><h4>ORGANIGRAMAS DESACTUALIZADOS</h4> </strong></center>
 <center>(Proyectos que cuentan con mas de 3 años sin actualizarse)</center><br><br>
 <form method="POST" enctype="multipart/form-data" action="resultados_org_desactualizados.php">
-<div class="row">
+  <div class="row">
+	<div class="col-md-9">
+		<input type="text" class="form-control" name="buscar" id="text" placeholder="Buscar Organigrama de Institucion">
+	</div>
+	<div class="col-auto">
+		<button type="submit" name="sector" class="btn btn-primary mb-4">Buscar</button>
+	</div>
+	<div class="col-auto">
+			<TABLE WIDTH="40%" >
+				<!-- <TR > -->
+					<TD><a title="Regresar" href="registro_de_nuevo_organigrama.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar proyecto" alt="..."></a></TD> 
+					<TD><a title="Regresar" href="org_status_procesos3.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Datos estadisticos " alt="..."></a></TD> 
+					<TD><a title="Regresar" href="org_status_procesos4.php"><img src="iconos/impresora.png " width="40"  class="rounded float-start" title ="Imprimir " alt="..."></a></TD>
+					<TD><a title="Regresar" href="org_status_procesos5.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
+				<!-- </TR> -->
+			</TABLE>
+	</div>
+  </div>
+</form>
 
-		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Busca organigrama de institución"></div>
-  		 <div class="col-md-2 "><button class="btn btn-primary" type="submit" >Buscar</button>  <!--   <a class="btn btn-primary" href="resultadosectorcentral.php" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Agregar</a> <button class="btn btn-primary" type="submit" >Modificar</button>  <a class="btn btn-primary" href="#" role="button" style=" color:#ffffff; background-color: #d5ac7a;  border: none;  --bs-btn-font-size: .75rem;">Eliminar</a><br></div> -->
-		<input type="hidden" name="sector" value="buscacentral" /><br><br><br>
-	</form>
-</div>
+
+
+
 
 
 <div class="row">
@@ -250,7 +267,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							</ul>
 						</nav>
 					</div>	
-
+	</div>
 
 <?php 
 // Conexión a la base de datos

@@ -134,7 +134,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										echo "<td><center>". $producto->secretaria."</center></td>";
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
 										echo "<td><center> Hace ". $ano." años</center></td>";
-										echo "<td><center><a title='Regresar' href='org_status_procesos.php'><img src='./iconos/actualizar.png' alt='dd' width='37' height='37' title ='Iniciar actualizacion' ></a> &nbsp; <img src='./iconos/archivo.png' alt='dd' width='40' height='40' title ='Descargar ultimo proyecto actualizado' ></center></td>";
+										echo "<td><center><a title='Regresar' href='registro_de_nuevo_organigrama.php'><img src='./iconos/actualizar.png' alt='dd' width='37' height='37' title ='Iniciar actualizacion' ></a> &nbsp; <a title='Regresar' href='org_status_procesos.php'> <img src='./iconos/archivo.png' alt='dd' width='40' height='40' title ='Descargar ultimo proyecto actualizado' ></a></center></td>";
 										
 									
 										

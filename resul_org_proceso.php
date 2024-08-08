@@ -1,3 +1,4 @@
+
 <!DOCTYPE html> 
 <html lang="es">
 <head>
@@ -9,7 +10,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+		<link rel="stylesheet" href="./pagina_v4/css/2.css">
 </head>
 <body>
 <?php include 'menu2.php'; ?>
@@ -19,6 +20,12 @@
 
 <br><br> 
 
+<center><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </center>
+<center>(Proyectos que se encuentran en actualización)</center><br><br>
+
+
+
+
 <form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php">
 <div class="row">
 
@@ -27,15 +34,14 @@
 		<input type="hidden" name="sector" value="buscacentral" /><br><br><br>
 	</form>
 </div>
-<center><strong><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </strong></center>
-<center>(Proyectos que se encuentran en actualización)</center><br><br>
+
 
 <div class="row">
 <br>
 
 		<table class="table">
-	  <thead>
-	    <tr>
+	  
+	    
 		  
 	      <th scope="col"><center>Institución</center></th>
 	      <!-- <th scope="col"><center>Proyecto</center></th> -->
@@ -44,6 +50,7 @@
 		  <!-- <th scope="col"><center>Inicio de actualización </center></th> -->
 		  <th scope="col"><center>Estatus </center></th>
 		  <th></th>
+		  
 		  <!-- <th scope="col"><center>Ultima version de proyecto</center>	</th> -->
           <!-- <th scope="col"><center>Descargar proyecto</center>	</th> -->
 	      
@@ -85,7 +92,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	if ($resultado>3) {
 	
 ?> 
-		<tbody>
+		
 	    <tr>
 		  
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
@@ -109,7 +116,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 }else {echo "";}}
 
  ?>
-	  </tbody>
+	
 	</table>
 	</div>
 

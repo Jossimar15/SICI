@@ -1,4 +1,17 @@
-<meta charset='utf-8'>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nuevo Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body>
+<?php include 'menu2.php'; ?>    
+
 <?php
 
 $meses = array("enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre");
@@ -13,29 +26,19 @@ $meses = array("enero","febrero","marzo","abril","mayo","junio","julio","agosto"
 date_default_timezone_set("America/Mexico_City");
 
 $fechaActual = date('d/m/Y');
-   
-  
- ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Registrar Nuevo Proyecto</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-		<!-- JavaScript Bundle with Popper -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</head>
-<body><br>
+?>
+<br>
 <div class="container">
-	<center><h2>REGISTRAR NUEVO PROYECTO</h2></center><p>
-  <center><h4>SECTOR PARESTATAL</h4></center><br></p>
-<form method="POST" enctype="multipart/form-data" action="upload.php" >
+  <center><h2>REGISTRAR NUEVO PROYECTO</h2></center>
+  <center><h6></h6></center><br></p>
+<form method="POST" enctype="multipart/form-data" action="upload.php">
 <div class="row">
   <div class="col">
     
   	<div class="form-group">
 		   <select  type="text"  name="secretaria" id="inputState" class="form-control">
-       	  <option value="Ninguno" selected>Elige una Secretaria</option>
-           <option>Secretaría de General de Gobierno (SEGOB)</option>
+			  <option selected>Elige una Secretaria</option><option value="Ninguno" selected>Elige una Secretaria</option>
+			        <option>Secretaría de General de Gobierno (SEGOB)</option>
                     <option>Coordinación Técnica del Sistema Estatal del Registro Civil (OA de SEGOB)</option>
                     <option>Coordinación General de Fortalecimiento Municipal (FORTAMUN)</option>
                     <option>Comisión Estatal de Búsqueda de Personas [OAD de SEGOB]</option>
@@ -148,8 +151,8 @@ $fechaActual = date('d/m/Y');
   <div class="col">
     
   	<div class="form-group">
-		   <select  type="text"  name="proyecto" id="inputState" class="form-control">
-			  <option value="Ninguno" selected>Tipo de proyecto</option>
+		   <select  type="text"   name="proyecto" id="inputState" class="form-control">
+			  <option selected>Tipo de proyecto</option>
 			  <option>Organograma</option>
 			  <option>Reglamento Interno</option>
 			  <option>Manual de Organizacion</option>
@@ -164,20 +167,20 @@ $fechaActual = date('d/m/Y');
 
   </div>
   <div class="col">
-        <input type="text" name="fecha" value="<?php echo "$fechaActual"; ?>" class="form-control" placeholder="fechaActual" readonly="readonly">
+        <input type="text"  name="fecha" value="<?php echo "$fechaActual"; ?>" class="form-control" placeholder="fechaActual" readonly="readonly">
   </div>
 </div>
 
 <br>
   <div class="row">
     <div class="col">
-      <input type="text" name="elaboro" class="form-control" placeholder="Nombre completo de quien lo elaboro">
+      <input type="text"  name="elaboro" class="form-control" placeholder="Enlace">
     </div>
     <div class="col">
-      <input type="text" name="telefono" class="form-control" placeholder="Telefono">
+      <input type="text"  name="telefono" class="form-control" placeholder="Telefono">
     </div>
     <div class="col">
-      <input type="email" name="correo" class="form-control" placeholder="Correo">
+      <input type="email"  name="correo" class="form-control" placeholder="Correo">
     </div>
   </div>
 
@@ -185,15 +188,20 @@ $fechaActual = date('d/m/Y');
   <br>
   <div class="row">
     <div class="col">
-      <input type="text" name="version" class="form-control" placeholder="Version">
+      <input type="text"  name="version" class="form-control" placeholder="Version">
     </div>
     <div class="col">
         <div class="form-group">
        <select  type="text"  name="res" id="inputState" class="form-control">
-        <option value="Ninguno" selected>Responsable del proyecto</option>
-        <option>Lic. Angel</option>
-        <option>Lic. Claudia</option>
-        <option>Lic. NNN</option>
+        <option value="0" selected>Responsable del proyecto</option>
+        <option>Lic. Ileana Estrada Bautista</option>
+        <option>Lic. Yuridia Jímenez Solis</option>
+        <option>Lic. Olgaolivia Casarrubias Altamirano</option>
+        <option>Lic. Susana Castillo Díaz</option>
+        <option>Lic. Claudia </option>
+        <option>Lic. Laura</option>
+        <option>Lic. Tramites y Servicios</option>
+        
         
         </select>
       </div>
@@ -216,7 +224,7 @@ $fechaActual = date('d/m/Y');
     </div>
 
     <input type="hidden" name="estatus" value="nuevo" />
-    <input type="hidden" name="sector" value="Parestatal" />
+    <input type="hidden" name="sector" value="Central" />
 
   </div></form>
 
@@ -226,7 +234,14 @@ $fechaActual = date('d/m/Y');
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+
+
 
 </body>
 </html>
+
+
+  
+ 
+
