@@ -9,11 +9,12 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="./pagina_v4/css/2.css">
+		<!-- <link rel="stylesheet" href="./pagina_v4/css/2.css"> -->
 		
 </head>
 <body>
 <?php include 'menu2.php'; ?>
+
 
 	<div class="container">
   <!-- Content here -->
@@ -86,13 +87,14 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	if ($resultado!==1 and $resultado!=2 and $resultado!=3) {
 	
 ?> 
-		<tbody>
+		
 
 <?php
 }else {echo "";}}
 
  ?>
-	  </tbody>
+	  
+
 	</table>
 	</div>
 
@@ -104,7 +106,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 include_once "conexionbd.php";
 
 # Cuántos productos mostrar por página
-$productosPorPagina = 10;
+$productosPorPagina =5;
 // Por defecto es la página 1; pero si está presente en la URL, tomamos esa
 $pagina = 1;
 if (isset ($_GET["pagina"])) {
@@ -137,7 +139,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 						
 						
 						<table class="table ">
-							<thead>
+							
 
 								
 								<th width="300"><center>Nombre de la Institucion</th>
@@ -149,8 +151,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								<th></th>
 							  
 							
-							</thead>
-							<tbody>
+							
 
 							
 
@@ -206,7 +207,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 									}		
 										
 										
-										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
+										if(($i%($max_cols-1)==3 && $i!= 0)||$i == ($conteo-1)){
 											
 											echo "</tr>";
 											
@@ -224,6 +225,36 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 							<?php }	}?>
 							</tbody>
 						</table>
+
+				<nav aria-label="Page navigation example">
+						
+						<ul class="pagination justify-content-center">
+						<?php if ($pagina > 1) { ?>
+						<li class="page-item ">
+
+						<a href="./resultadosectorcentral.php?pagina=<?php echo $pagina - 1 ?>" class="page-link">Anterior</a>
+						
+												
+						</li>
+						<?php } ?>
+						<?php for ($x = 1; $x <= $paginas; $x++) { ?>
+						<li class="<?php if ($x == $pagina) echo 'page-item active" aria-current="page'?>"><a class="page-link" href="./resultadosectorcentral.php?pagina=<?php echo $x;?>">
+						<?php echo $x ?></a>
+						
+						</li>
+						<?php } ?>
+						<?php if ($pagina < $paginas) { ?>
+						<li class="page-item">
+						<a class="page-link" href="./resultadosectorcentral.php?pagina=<?php echo $pagina + 1 ?>">Siguiente</a>
+						</li>
+						<?php } ?>
+						</ul>
+				</nav>
+									
+
+
+
+			<?php /*
 						<nav>
 							<div class="row">
 								<div class="col-xs-12 col-sm-6">
@@ -234,6 +265,9 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 									<!-- <p>Página <?php echo $pagina ?> de <?php echo $paginas ?> </p> -->
 								</div>
 							</div>
+
+
+
 							<ul class="pagination">
 								<!-- Si la página actual es mayor a uno, mostramos el botón para ir una página atrás -->
 								<?php if ($pagina > 1) { ?>
@@ -266,6 +300,9 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 								<?php } ?>
 							</ul>
 						</nav>
+
+
+			*/?>
 					</div>	
 	</div>
 

@@ -8,7 +8,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="./pagina_v4/css/2.css">
+	<!-- <link rel="stylesheet" href="./pagina_v4/css/2.css"> -->
 	
     <!-- <link rel="stylesheet" href="./pagina_v4/css/estilo.css"> -->
 </head>
@@ -77,8 +77,8 @@ $id25= $_GET["idsecretaria2"];
 				?>
 				
 					<div class="col-xs-12">
-					<div class="row">
-						<div class="col-md-6 offset-md-3"><h3><center>AVANCES DEL PROYECTO</center></h3></div>
+					<div class="row"><br><br>
+						<div class="col-md-6 offset-md-3"><br><br><h3><center>AVANCES DEL PROYECTO</center></h3></div>
 						
 					</div>
 					<div class="col-md-3 offset-md-10">
@@ -94,16 +94,14 @@ $id25= $_GET["idsecretaria2"];
 
 						<!-- <br><center><h5>Avances del Proyecto</h5></center><br> -->
 						<table class="table ">
-							<thead>
+							
 						
 								<th width="300"><center><h5>Nombre de la Institucion</center></th>
 								<th><center><h5>Observacion o comentario</center></th>
-								<th></th>
-								<th></th>
+								
 							  
 							
-							</thead>
-							<tbody>
+							
 							<?php foreach ($productos as $producto) { ?>
 								
 								<!--  -->
@@ -136,11 +134,41 @@ $id25= $_GET["idsecretaria2"];
 							<?php } ?>
 							</tbody>
 						</table>
-						<nav>
+				
+					
+					<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
+					<?php if ($pagina > 1) { ?>
+					<li class="page-item ">
+
+					<a href="./detalles_org_proceso.php?pagina=<?php echo $pagina - 1 ?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>" class="page-link">Anterior</a>
+					
+											
+					</li>
+					<?php } ?>
+					<?php for ($x = 1; $x <= $paginas; $x++) { ?>
+					<li class="<?php if ($x == $pagina) echo 'page-item active" aria-current="page' ?>"><a class="page-link" href="./detalles_org_proceso.php?pagina=<?php echo $x;?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>">
+					<?php echo $x ?></a>
+					
+					</li>
+					<?php } ?>
+					<?php if ($pagina < $paginas) { ?>
+					<li class="page-item">
+					<a class="page-link" href="./detalles_org_proceso.php?pagina=<?php echo $pagina + 1 ?>&idsecretaria=<?php echo $id24;?>&idsecretaria2=<?php echo $id25;?>">Siguiente</a>
+					</li>
+					<?php } ?>
+					</ul>
+				</nav>
+
+					
+					
+					
+					<?php
+					//Este es el codigo origina de paginacion, activando el css estilos.css o 2.css
+					/*	<nav>
 							<div class="row">
 								<div class="col-xs-12 col-sm-6">
-				
-									<!-- <p>Mostrando <?php echo $productosPorPagina ?> de <?php echo $conteo ?> productos disponibles</p> -->
+				  					<!-- <p>Mostrando <?php echo $productosPorPagina ?> de <?php echo $conteo ?> productos disponibles</p> -->
 								</div>
 								<div class="col-xs-12 col-sm-6">
 									<!-- <p>Página <?php echo $pagina ?> de <?php echo $paginas ?> </p> -->
@@ -178,6 +206,8 @@ $id25= $_GET["idsecretaria2"];
 								<?php } ?>
 							</ul>
 						</nav>
+
+					*/?>
 					</div>	
 				
 
@@ -188,6 +218,7 @@ $id25= $_GET["idsecretaria2"];
 	   	
 </div>
 </div>
+
 </body>
 </html> 
 
