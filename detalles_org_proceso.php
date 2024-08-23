@@ -8,10 +8,33 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<!-- JavaScript Bundle with Popper -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- <link rel="stylesheet" href="./pagina_v4/css/2.css"> -->
 	
     <!-- <link rel="stylesheet" href="./pagina_v4/css/estilo.css"> -->
 </head>
+
+<!-- Este escrip permite a modal enviar los datos del formulario para agregar un comentario -->
+<script>
+        $(document).ready(function() {
+            $('#miFormulario').on('submit', function(event) {
+                event.preventDefault(); // Evita que el formulario se envíe de manera tradicional
+
+                $.ajax({
+                    url: 'guardar_datos.php', // Ruta al archivo PHP que manejará la inserción
+                    type: 'POST',
+                    data: $(this).serialize(), // Serializa los datos del formulario
+                    success: function(response) {
+                        alert(response); // Muestra la respuesta del servidor
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Muestra el error en la consola
+                    }
+                });
+            });
+        });
+</script>
+
 <body>
 
 	<?php include 'menu.php';  ?>
@@ -24,7 +47,7 @@
 $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 $components = parse_url($url);
 parse_str($components['query'], $results);
-$id24= $_GET["idsecretaria"];
+$id24= $_GET["idsecretaria"]; //este es el id AI de la tabla fechasectocentral para update
 $id25= $_GET["idsecretaria2"];
 // echo($results['idsecretaria']."<br>");
 
@@ -84,13 +107,21 @@ $id25= $_GET["idsecretaria2"];
 					<div class="col-md-3 offset-md-10">
 							<TABLE WIDTH="40%" >
 								<TR >
-									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar comentario " alt="..."></a></TD> 
+									<TD><a title="Regresar" href="org_status_procesos.php" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar comentario " alt="..."></a></TD> 
 									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Grafica " alt="..."></a></TD> 
 									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/impresora.png " width="40"  class="rounded float-start" title ="Imprimir " alt="..."></a></TD>
 									<TD><a title="Regresar" href="org_status_procesos.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
 								</TR>
 							</TABLE>
 						</div>
+
+
+
+
+
+
+
+
 
 						<!-- <br><center><h5>Avances del Proyecto</h5></center><br> -->
 						<table class="table ">
@@ -218,6 +249,65 @@ $id25= $_GET["idsecretaria2"];
 	   	
 </div>
 </div>
+
+
+
+<!-- Aqui va el contenido de la ventana MODAL -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+				
+
+						
+                Usted esta apunto de agregar un comentario a <?php echo $producto->secretaria; ?> ,
+
+                <p>como parte del seguimineto a la actualización del proyecto de organigrama</p>
+				
+				<?php echo $id24 ?>
+				<h1>Formulario de Usuarios</h1>
+				<form id="miFormulario">
+				<input type="hidden" id="nombre" name="nombre" required>
+					<label for="nombre">Nombre:</label>
+					<input type="text" id="nombre" name="nombre" required><br><br>
+					<label for="email">Email:</label>
+					<input type="email" id="email" name="email" required><br><br>
+					<button type="submit">Guardar</button>
+				</form>
+
+				
+					
+					<!-- <div class="input-group">
+					<span class="input-group-text">Comentario</span>
+					<textarea class="form-control" aria-label="With textarea"></textarea>
+					</div><br>
+					<select class="form-select form-select-sm" aria-label="Small select example">
+						<option selected>Selecciona el estatus del proyecto</option>
+						<option value="1">Revision por la SCyTG</option>
+						<option value="2">Revision por SEFINA</option>
+						<option value="3">Correcion de observaciones por la Dependencia</option>
+						<option value="2">En firma por parte de SEFINA</option>
+						<option value="2">En firma por parte de SCyTG</option>
+
+						
+
+						
+					</select>
+
+            </div>
+            <div class="modal-footer">
+			<input class="btn btn-primary" type="submit" value="Guardar">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html> 

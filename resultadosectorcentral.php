@@ -84,15 +84,15 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	
 	
 
-	if ($resultado!==1 and $resultado!=2 and $resultado!=3) {
+// 	if ($resultado!==1 and $resultado!=2 and $resultado!=3) {
 	
-?> 
+// ?> 
 		
 
 <?php
-}else {echo "";}}
+// }else {echo "";}}
 
- ?>
+} ?>
 	  
 
 	</table>
@@ -106,7 +106,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 include_once "conexionbd.php";
 
 # Cuántos productos mostrar por página
-$productosPorPagina =5;
+$productosPorPagina =3	;
 // Por defecto es la página 1; pero si está presente en la URL, tomamos esa
 $pagina = 1;
 if (isset ($_GET["pagina"])) {
@@ -117,7 +117,7 @@ $limit = $productosPorPagina;
 # El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 $offset = ($pagina - 1) * $productosPorPagina;
 # Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral ");
+$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='autorizado'  and fecha_de_verificacion = max_fecha order by id_secretaria desc ");
 $conteo = $sentencia->fetchObject()->conteo;
 # Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 $paginas = ceil($conteo / $productosPorPagina);

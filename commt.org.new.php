@@ -75,3 +75,41 @@
 </body>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Guardar Datos con jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#miFormulario').on('submit', function(event) {
+                event.preventDefault(); // Evita que el formulario se envíe de manera tradicional
+
+                $.ajax({
+                    url: 'guardar_datos.php', // Ruta al archivo PHP que manejará la inserción
+                    type: 'POST',
+                    data: $(this).serialize(), // Serializa los datos del formulario
+                    success: function(response) {
+                        alert(response); // Muestra la respuesta del servidor
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Muestra el error en la consola
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Formulario de Usuarios</h1>
+    <form id="miFormulario">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

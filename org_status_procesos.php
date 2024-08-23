@@ -18,6 +18,15 @@
 	<div class="container">
   <!-- Content here -->
 
+
+
+
+
+
+
+
+
+
 <br>
 
 <center><strong><h4>ORGANIGRAMAS EN PROCESO DE ACTUALIZACIÓN</h4> </strong></center>
@@ -43,7 +52,7 @@
   <div class="col-auto">
 		<TABLE WIDTH="40%" >
 			<!-- <TR > -->
-				<TD><a title="Regresar" href="org_status_procesos2.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar proyecto" alt="..."></a></TD> 
+				<!-- <TD><a title="Regresar" href="org_status_procesos2.php"><img src="iconos/mas.png "  width="20"  class="rounded float-start" title ="Agregar proyecto" alt="..."></a></TD>  -->
 				<TD><a title="Regresar" href="org_status_procesos3.php"><img src="iconos/grafica.png "  width="40"  class="rounded float-start" title ="Datos estadisticos " alt="..."></a></TD> 
 				<TD><a title="Regresar" href="org_status_procesos4.php"><img src="iconos/impresora.png " width="40"  class="rounded float-start" title ="Imprimir " alt="..."></a></TD>
 				<TD><a title="Regresar" href="org_status_procesos5.php"><img src="iconos/regresar.png " width="20"  class="rounded float-start" title ="Regresar " alt="..."></a></TD>
@@ -120,7 +129,7 @@ $limit = $productosPorPagina;
 # El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 $offset = ($pagina - 1) * $productosPorPagina;
 # Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral ");
+$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral where estatus='Proceso'");
 $conteo = $sentencia->fetchObject()->conteo;
 # Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 $paginas = ceil($conteo / $productosPorPagina);
