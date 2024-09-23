@@ -11,14 +11,14 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 		<!-- <link rel="stylesheet" href="./pagina_v4/css/2.css"> -->
 		
+
+
 </head>
 <body> 
 <?php include 'menu2.php'; ?>
 
 	<div class="container">
   <!-- Content here -->
-
-
 
 
 
@@ -44,10 +44,12 @@
 
 <form method="POST" enctype="multipart/form-data" action="resul_org_proceso.php" class="row g-3">
   <div class="col-md-9">
-      <input type="text" class="form-control" name="buscar" id="text" placeholder="Buscar Organigrama de Institucion">
+	
+  
+      <input type="text" class="form-control" name="buscar" id="text" placeholder="Buscar Organigrama de Institucion" required >
   </div>
   <div class="col-auto">
-    <button type="submit" name="sector" class="btn btn-primary mb-4">Buscar</button>
+    <button type="submit" name="sector" class="btn btn-primary mb-4" >Buscar</button>
   </div>
   <div class="col-auto">
 		<TABLE WIDTH="40%" >
@@ -129,13 +131,33 @@ $limit = $productosPorPagina;
 # El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 $offset = ($pagina - 1) * $productosPorPagina;
 # Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral where estatus='Proceso'");
-$conteo = $sentencia->fetchObject()->conteo;
-# Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
+$sentencia = $base_de_datos->query("
+    SELECT COUNT(*) AS conteo
+    FROM (
+        SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus, seguimiento, 
+               SUBSTRING(fecha_de_verificacion, -4) AS fecha1
+        FROM (
+            SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus, seguimiento,
+                   max(version) OVER (PARTITION BY id_secretaria) AS max_fecha
+            FROM fechasectocentral
+        ) con_max_fecha
+        WHERE fecha_de_verificacion != '' 
+          AND estatus = 'Proceso' 
+          AND version = max_fecha
+    ) AS conteo;
+");
+
+// Fetch the count result
+$resultado = $sentencia->fetchObject();
+$conteo = $resultado->conteo;
+
+// Para obtener las páginas, dividimos el conteo entre los productos por página, y redondeamos hacia arriba
+$productosPorPagina = 3; // Define el número de productos por página (ajusta según sea necesario)
 $paginas = ceil($conteo / $productosPorPagina);
 
 # Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='Proceso'  and fecha_de_verificacion = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
+// $sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='Proceso'  and fecha_de_verificacion = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
+$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, seguimiento, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, seguimiento, max(version) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='Proceso' and version = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
 $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 // SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral
@@ -216,8 +238,11 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
 										
 										echo "<td><center> Hace ".$ano ." años </center></td>";
-										echo "<td><center> En actualizacion  </center></td>";
+										echo "<td><center> $producto->seguimiento  </center></td>";
 										echo "<td><center>".$producto->fecha1."  </center></td>";
+										echo "<td><center>".$producto->version."  </center></td>";
+										
+
 										
 									
 									}		

@@ -49,6 +49,7 @@ $components = parse_url($url);
 parse_str($components['query'], $results);
 $id24= $_GET["idsecretaria"]; //este es el id AI de la tabla fechasectocentral para update
 $id25= $_GET["idsecretaria2"];
+$fecha_de_verificacion= $_GET["fecha_de_verificacion"];
 // echo($results['idsecretaria']."<br>");
 
 
@@ -93,7 +94,7 @@ $id25= $_GET["idsecretaria2"];
 				$paginas = ceil($conteo / $productosPorPagina);
 				
 				# Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-				$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=$id25 ORDER BY fecha_de_modificacion desc LIMIT ? OFFSET ? ");
+				$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=$id25  ORDER BY version desc LIMIT ? OFFSET ? ");
 				$sentencia->execute([$limit, $offset]);
 				$productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 				# Y más abajo los dibujamos...
@@ -127,7 +128,7 @@ $id25= $_GET["idsecretaria2"];
 						<table class="table ">
 							
 						
-								<th width="300"><center><h5>Nombre de la Institucion</center></th>
+								<th width="300"><center><h5>Información de la Institucion</center></th>
 								<th><center><h5>Observacion o comentario</center></th>
 								
 							  
@@ -148,7 +149,7 @@ $id25= $_GET["idsecretaria2"];
 										}
 										
 										
-										echo "<td>". $producto->secretaria."<br>Fecha de observacion: ". $producto->fecha_de_modificacion."<br></td>";
+										echo "<td>". $producto->secretaria."<br>Fecha de modificacion: ". $producto->fecha_de_modificacion."<br>Estatus: ". $producto->estatus."<br>Versión: ". $producto->version."</td>";
 										echo "<td>". $producto->comentario."<br></td>";
 										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){
@@ -251,31 +252,47 @@ $id25= $_GET["idsecretaria2"];
 </div>
 
 
-
 <!-- Aqui va el contenido de la ventana MODAL -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo comentario</h5>
+                <h3 class="modal-title" id="exampleModalLabel">Nuevo comentario</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 				
 
 						
-                Usted esta apunto de agregar un comentario a <?php echo $producto->secretaria; ?> ,
-
-                <p>como parte del seguimineto a la actualización del proyecto de organigrama</p>
+                		
+				<!--  -->
 				
-				<?php echo $id24 ?>
-				<h1>Formulario de Usuarios</h1>
+				Usted esta apunto de agregar un comentario a <?php echo $producto->secretaria; ?> ,
+                <p>como parte del seguimiento a la actualización del proyecto de organigrama</p><br>
+				
+
 				<form id="miFormulario">
-				<input type="hidden" id="nombre" name="nombre" required>
-					<label for="nombre">Nombre:</label>
-					<input type="text" id="nombre" name="nombre" required><br><br>
-					<label for="email">Email:</label>
-					<input type="email" id="email" name="email" required><br><br>
+					<input type="hidden" id="idsecretaria" name="idsecretaria" value="<?php echo $id25; ?>">
+					<input type="hidden" id="secretaria" name="secretaria" value="<?php echo $producto->secretaria; ?>">
+					<input type="hidden" id="fecha_inicial" name="fecha_inicial" value="<?php echo $producto->fecha_inicial; ?>">
+					<input type="hidden" id="fecha_inicial" name="fecha_de_verificacion" value="<?php echo $fecha_de_verificacion ?>">
+									
+
+					<label for="select-comunidad">Tipo de estatus</label>
+					<select name="seguimiento" required>
+						<option value="">Seleccione una opción</option>
+						<option value="Revision por la SCyTG">Revision por la SCyTG</option>
+						<option value="Envio de observaciones a la Institucion">Envio de observaciones a la Institucion</option>
+						<option value="En Firma por SCyTG">En Firma por SCyTG</option>
+						<option value="Revision por SEFINA">Revision por SEFINA</option>
+						<option value="En Firma por SEFINA">En Firma por SEFINA</option>
+						<option value="autorizado">Aprobado y Actualizado</option>
+						
+					</select><br>
+					<br>
+					<label for="email">Comentario:</label>
+					<input type="text" id="comentario" name="comentario" required><br><br>
+					
 					<button type="submit">Guardar</button>
 				</form>
 
