@@ -30,7 +30,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL
-$sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, MAX(version) OVER (PARTITION BY id_secretaria) AS max_fecha FROM fechasectocentral) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Proceso" AND version = max_fecha) AS subconsulta';
+$sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, MAX(version) OVER (PARTITION BY id_secretaria) AS max_fecha FROM organigrama) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Proceso" AND version = max_fecha) AS subconsulta';
 $result = $conn->query($sql);
 
 // Verificar si hay resultados
@@ -51,7 +51,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta SQL
-$sql2 = 'SELECT COUNT(*) AS total2 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM fechasectocentral) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Autorizado" AND fecha_de_verificacion = max_fecha) AS subconsulta';
+$sql2 = 'SELECT COUNT(*) AS total2 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM organigrama) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Autorizado" AND fecha_de_verificacion = max_fecha) AS subconsulta';
 $result2 = $conn->query($sql2);
 
 // Verificar si hay resultados
@@ -73,7 +73,7 @@ include 'conexionbd.php';
 $sql4 = "SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha4 
          FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,  
                 max(version) over (partition by id_secretaria) as max_fecha 
-                FROM fechasectocentral) con_max_fecha 
+                FROM organigrama) con_max_fecha 
          WHERE fecha_de_verificacion != '' AND estatus = 'autorizado' AND version = max_fecha 
          ORDER BY id_secretaria";
 $result4 = mysqli_query($conn, $sql4);
@@ -97,7 +97,7 @@ while ($crow4 = mysqli_fetch_assoc($result4)) {
 $sql5 = "SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha5 
          FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,  
                 max(version) over (partition by id_secretaria) as max_fecha 
-                FROM fechasectocentral) con_max_fecha 
+                FROM organigrama) con_max_fecha 
          WHERE fecha_de_verificacion != '' AND estatus = 'autorizado' AND version = max_fecha 
          ORDER BY id_secretaria";
 $result5 = mysqli_query($conn, $sql5);

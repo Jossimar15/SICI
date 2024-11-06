@@ -21,7 +21,7 @@
 		
 
 
-	<br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br>
 	<footer class="container">
     <p class="float-end"><a href="#">Regresar al inicio</a></p>
     <p>&copy; 2021–2027 Derechos de la SCyTG, JHM. &middot; <a href="#">Aviso de privacidad</a> &middot; <a href="#"></a></p>

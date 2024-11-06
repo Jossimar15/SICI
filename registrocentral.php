@@ -27,10 +27,10 @@ $fechaActual = date('d/m/Y');
 </head>
 <body><br>
 <div class="container">
-	<center><h2>REGISTRAR NUEVO PROYECTO</h2></center><p>
-  <center><h4>SECTOR CENTRAL</h4></center><br></p>
+	<center><h2>REGISTRAR NUEVO PROYECTO</h2></center><p><br>
+  <!-- <center><h4>SECTOR CENTRAL</h4></center><br></p> -->
 <form method="POST" enctype="multipart/form-data" action="upload.php" >
-<div class="row">
+<div class="row"> 
   <div class="col">
     
   	<div class="form-group">
@@ -156,40 +156,50 @@ $fechaActual = date('d/m/Y');
 			  <option>Manual de Organizacion</option>
 			  <option>Manual de Procedimientos</option>
 			  <option>Manual de Tramites y Servicios</option>
-			  <option>Codigo de Conducta</option>
+			  <!-- <option>Codigo de Conducta</option>
 			  <option>Marcos Juridicos Especificos</option>
 			  <option>Comites de Control Interno</option>
-			  <option>Comites de Etica</option>
+			  <option>Comites de Etica</option> -->
 		    </select>
 		  </div>
 
   </div>
+
   <div class="col">
         <input type="text"  name="fecha" value="<?php echo "$fechaActual"; ?>" class="form-control" placeholder="fechaActual" readonly="readonly">
   </div>
 </div>
 
 <br>
-  <div class="row">
-    <div class="col">
-      <input type="text"  name="elaboro" class="form-control" placeholder="Enlace">
+
+<div class="row">
+<div class="col">
+      <input type="text"  name="elaboro" class="form-control" placeholder="Fecha de creacion">
     </div>
     <div class="col">
-      <input type="text"  name="telefono" class="form-control" placeholder="Telefono">
+    <input type="email"  name="correo" class="form-control" placeholder="Ultima fecha de actualizacion del organigrama ">
     </div>
     <div class="col">
-      <input type="email"  name="correo" class="form-control" placeholder="Correo">
+      
+      <div class="form-group">
+       <select  type="text"  name="res" id="inputState" class="form-control">
+        <option value="0" selected>Estatus</option>
+        <option>Autorizado vigente</option>
+        <option>Autorizado desactualzado</option>
+        <option>Autorizado y en proceso de actualizacion</option>
+        
+        </select>
+        </div>
     </div>
-  </div>
+
+</div>
+
 
 
   <br>
   <div class="row">
     <div class="col">
-      <input type="text"  name="version" class="form-control" placeholder="Version">
-    </div>
-    <div class="col">
-        <div class="form-group">
+    <div class="form-group">
        <select  type="text"  name="res" id="inputState" class="form-control">
         <option value="0" selected>Responsable del proyecto</option>
         <option>Lic. Angel</option>
@@ -198,16 +208,30 @@ $fechaActual = date('d/m/Y');
         
         </select>
       </div>
-      
+          </div>
+    <div class="col">
+   
+    <div class="col">Sube el proyecto en PDF,el nombre del archivo no debe tener espacios
+       
+       <div class="form-group">
+     <input type="hidden" name="MAX_FILE_SIZE" value="51200000000000" />
+     <input name="subir_archivo" type="file" class="form-control-file" id="exampleFormControlFile1" accept="image/jpeg,application/pdf"><input type="submit" value="Guardar informacion" />
+   </div>
+     </div>
+ 
+     <input type="hidden" name="estatus" value="nuevo" />
+     <input type="hidden" name="sector" value="Central" />
+ 
+   </div></form>
       
     </div>
     <div class="col">
-      <input type="text" name="codigo" class="form-control" placeholder="Codigo">
+      <!-- <input type="text" name="codigo" class="form-control" placeholder="Codigo"> -->
     </div>
   </div>
 
-<br>
-  <div class="row">
+<br><br><br><br><br>
+  <!-- <div class="row">
     <div class="col">Sube el proyecto en PDF,el nombre del archivo no debe tener espacios
        
       <div class="form-group">
@@ -219,7 +243,7 @@ $fechaActual = date('d/m/Y');
     <input type="hidden" name="estatus" value="nuevo" />
     <input type="hidden" name="sector" value="Central" />
 
-  </div></form>
+  </div></form> -->
 
 </div> <!--Cerrar el contenero-->
 

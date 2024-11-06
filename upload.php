@@ -6,6 +6,8 @@ $sector= $_POST["sector"];
 
 
 
+      
+
 
 
 
@@ -79,11 +81,15 @@ if (mysqli_query($conn, $sql)) {
       
 //echo "exito";
 
-} if (mysqli_query($conn, $sql2)) {
-      // code...
-} else {
+}{
       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }
+
+// if (mysqli_query($conn, $sql2)) {
+//       // code...
+// } else {
+//       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+// }
 mysqli_close($conn);
 
 
