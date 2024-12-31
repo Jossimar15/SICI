@@ -117,18 +117,36 @@ $limit = $productosPorPagina;
 # El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 $offset = ($pagina - 1) * $productosPorPagina;
 # Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,  max(version) over (partition by id_secretaria) as max_fecha FROM  organigrama) con_max_fecha where fecha_de_verificacion!='' and estatus='autorizado'  and version = max_fecha order by id_secretaria desc ");
+$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus,seguimiento,  max(version) over (partition by id_secretaria) as max_fecha FROM  organigrama) con_max_fecha where fecha_verificacion!='' and estatus='autorizado' and version = max_fecha order by id_secretaria desc ");
 $conteo = $sentencia->fetchObject()->conteo;
 # Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 $paginas = ceil($conteo / $productosPorPagina);
 
 # Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,seguimiento, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,seguimiento,  max(version) over (partition by id_secretaria) as max_fecha FROM  organigrama) con_max_fecha where fecha_de_verificacion!='' and estatus='autorizado'  and version = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
+$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus,seguimiento, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus,seguimiento,  max(version) over (partition by id_secretaria) as max_fecha FROM  organigrama) con_max_fecha where fecha_verificacion!='' and estatus='autorizado'  and version = max_fecha order by id_secretaria desc LIMIT ? OFFSET ?  ");
 $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 // SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 from sectorcentral
 
+$sql5 = "SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, version, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha5 
+         FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus,seguimiento,  
+                max(version) over (partition by id_secretaria) as max_fecha 
+                FROM organigrama) con_max_fecha 
+         WHERE fecha_verificacion != '' AND estatus = 'autorizado' AND version = max_fecha 
+         ORDER BY id_secretaria";
+$result5 = mysqli_query($conn, $sql5);
 
+$total_registros2 = 0; // Variable para contar el número total de registros
+
+while ($crow5 = mysqli_fetch_assoc($result5)) {
+   
+    $resultado5 = (int)$anoactual - (int)$crow5['fecha5'];
+
+    if ($resultado5 > 3 && $crow5['estatus'] == "autorizado") {
+        $total_registros2++; // Aumenta el contador de registros
+       
+    }
+}
 
 
 
@@ -140,7 +158,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 						
 						<table class="table ">
 							
-
+						<p>Total de proyectos desactualizados: <strong><?php echo $total_registros2; ?></strong></p>
 								
 								<th width="300"><center>Nombre de la Institucion</th>
 								<th scope="col"><center>Ultima actualización</center></th>
@@ -197,10 +215,10 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
 										
 										echo "<td><center>". $producto->secretaria."</center></td>";
-										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
+										echo "<td><center>". $producto->fecha_verificacion."</center><br></td>";
 										
 										echo "<td><center> Hace ".$ano ." años </center></td>";
-										echo "<td><center>". $producto->seguimiento." </center></td>";
+										echo "<td><center>". $producto->estatus." <p style='font-size: 11px;'> (". $producto->seguimiento.")</p></center></td>";
 										echo "<td><center>".$producto->fecha1."  </center></td>";
 										
 									
@@ -322,7 +340,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 // }
 
 // // Consulta SQL
-// $sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, MAX(fecha_de_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM  organigrama) con_max_fecha WHERE fecha_de_verificacion != "" AND estatus = "Proceso" AND fecha_de_verificacion = max_fecha) AS subconsulta';
+// $sql = 'SELECT COUNT(*) AS total FROM (SELECT id_fech, id_secretaria, secretaria, fecha_verificacion, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM (SELECT id_fech, id_secretaria, secretaria, fecha_verificacion, comentario, estatus, MAX(fecha_verificacion) OVER (PARTITION BY id_secretaria) AS max_fecha FROM  organigrama) con_max_fecha WHERE fecha_verificacion != "" AND estatus = "Proceso" AND fecha_verificacion = max_fecha) AS subconsulta';
 // $result = $conn->query($sql);
 
 // // Verificar si hay resultados

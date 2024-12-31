@@ -49,7 +49,7 @@ $components = parse_url($url);
 parse_str($components['query'], $results);
 $id24= $_GET["idsecretaria"]; //este es el id AI de la tabla fechasectocentral para update
 $id25= $_GET["idsecretaria2"];
-$fecha_de_verificacion= $_GET["fecha_de_verificacion"];
+$fecha_de_verificacion= $_GET["fecha_verificacion"];
 // echo($results['idsecretaria']."<br>");
 
 
@@ -88,13 +88,13 @@ $fecha_de_verificacion= $_GET["fecha_de_verificacion"];
 				# El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 				$offset = ($pagina - 1) * $productosPorPagina;
 				# Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-				$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral where id_secretaria=$id25");
+				$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM organigrama where id_secretaria=$id25");
 				$conteo = $sentencia->fetchObject()->conteo;
 				# Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 				$paginas = ceil($conteo / $productosPorPagina);
 				
 				# Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-				$sentencia = $base_de_datos->prepare("SELECT * FROM fechasectocentral where id_secretaria=$id25  ORDER BY version desc LIMIT ? OFFSET ? ");
+				$sentencia = $base_de_datos->prepare("SELECT * FROM organigrama where id_secretaria=$id25  ORDER BY version desc LIMIT ? OFFSET ? ");
 				$sentencia->execute([$limit, $offset]);
 				$productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 				# Y más abajo los dibujamos...
@@ -149,7 +149,7 @@ $fecha_de_verificacion= $_GET["fecha_de_verificacion"];
 										}
 										
 										
-										echo "<td>". $producto->secretaria."<br>Fecha de modificacion: ". $producto->fecha_de_modificacion."<br>Estatus: ". $producto->estatus."<br>Versión: ". $producto->version."</td>";
+										echo "<td>". $producto->secretaria."<br>Fecha de modificacion: ". $producto->fecha_modificacion."<br>Estatus: ". $producto->estatus."<br>Versión: ". $producto->version."</td>";
 										echo "<td>". $producto->comentario."<br></td>";
 										
 										if(($i%($max_cols-1)==4 && $i!= 0)||$i == ($conteo-1)){

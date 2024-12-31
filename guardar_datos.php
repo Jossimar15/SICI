@@ -14,7 +14,7 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-$result = $conn->query("SELECT COUNT(*) as total FROM fechasectocentral");
+$result = $conn->query("SELECT COUNT(*) as total FROM organigrama");
 $row = $result->fetch_assoc();
 $numero = $row['total'] + 1; 
 

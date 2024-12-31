@@ -76,8 +76,8 @@
 
 $buscar= $_POST["buscar"];
 include 'conexionbd.php';
-$sql2 = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE  fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria)and sectorcentral.secretaria  like '%$buscar%'";
-$sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, version, comentario, estatus,  max(version) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where fecha_de_verificacion!='' and estatus='Proceso'  and version = max_fecha and secretaria  like '%$buscar%'order by id_secretaria";
+$sql2 = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS fecha1 FROM sectorcentral INNER JOIN organigrama ON sectorcentral.id_secretaria = organigrama.id_secretaria WHERE  organigrama.id_fech IN (SELECT MAX(organigrama.id_fech) FROM organigrama GROUP BY organigrama.id_secretaria)and sectorcentral.secretaria  like '%$buscar%'";
+$sql="SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, version, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, version, comentario, estatus,  max(version) over (partition by id_secretaria) as max_fecha FROM organigrama) con_max_fecha where fecha_verificacion!='' and estatus='Proceso'  and version = max_fecha and secretaria  like '%$buscar%'order by id_secretaria";
 $result = mysqli_query($conn, $sql);
 
 while($crow = mysqli_fetch_assoc($result)){?>
@@ -97,7 +97,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 	    <tr>
 		
 	      <td><center><?php echo $crow['secretaria'];?></center></td>
-		  <td><center><?php echo $crow['fecha_de_verificacion'];?></center></td>
+		  <td><center><?php echo $crow['fecha_verificacion'];?></center></td>
 		  <td><center><?php echo "Hace "; echo $resultado; echo " años" ?></center></td>
 		 	
 		  <td><center><?php echo $crow['estatus']; ?></center></td>
@@ -107,7 +107,7 @@ while($crow = mysqli_fetch_assoc($result)){?>
 		  <td><center><button class="btn btn-primary" type="submit">Detalles</button></center></td>
 	      <input type="hidden" name="idsecretaria" value="<?php echo $crow['id_fech'];?>" />
 	      <input type="hidden" name="idsecretaria2" value="<?php echo $crow['id_secretaria'];?>" />
-		  <input type="hidden" name="fecha_de_verificacion" value="<?php echo $crow['fecha_de_verificacion'];?>" />
+		  <input type="hidden" name="fecha_verificacion" value="<?php echo $crow['fecha_verificacion'];?>" />
 		  
 		  
 

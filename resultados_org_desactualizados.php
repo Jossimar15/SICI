@@ -11,7 +11,30 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<!-- <link rel="stylesheet" href="./pagina_v4/css/2.css"> -->
 </head>
-</head>
+<!-- Este escrip permite a modal enviar los datos del formulario para agregar un comentario -->
+<script>
+        $(document).ready(function() {
+            $('#miFormulario').on('submit', function(event) {
+                event.preventDefault(); // Evita que el formulario se envíe de manera tradicional
+
+                $.ajax({
+                    url: 'guardar_datos.php', // Ruta al archivo PHP que manejará la inserción
+                    type: 'POST',
+                    data: $(this).serialize(), // Serializa los datos del formulario
+                    success: function(response) {
+                        alert(response); // Muestra la respuesta del servidor
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText); // Muestra el error en la consola
+                    }
+                });
+            });
+        });
+</script>
+
+
+
+
 <body>
 	<?php include 'menu.php';  ?>
 
@@ -22,7 +45,7 @@
 <br><center><h3>ORGANIGRAMAS QUE NECESITAN DE ACTUALIZACIÓN</h3></center>
 <center>(Proyectos que cuentan con mas de 3 años sin actualizarse)</center><br><br>
 
-<form method="POST" enctype="multipart/form-data" action="resultados_org_desactualizados.php">
+<form method="GET" enctype="multipart/form-data" action="resultados_org_desactualizados.php">
 <div class="row">
 	
 		  <div class="col-md-8"><input type="text" name="buscar" class="form-control" id="inputAddress" placeholder="Buscar"></div>
@@ -62,10 +85,10 @@ $buscar= $_GET["buscar"];
 // include 'conexionbd.php';
 // //  $sql = "SELECT *, SUBSTRING(fecha_autorizacion, -4) AS ano FROM sectorcentral INNER JOIN fechasectocentral ON sectorcentral.id_secretaria = fechasectocentral.id_secretaria WHERE fechasectocentral.id_fech IN (SELECT MAX(fechasectocentral.id_fech) FROM fechasectocentral GROUP BY fechasectocentral.id_secretaria) and sectorcentral.secretaria  like '%$buscar%'";
 // //  $sql = "SELECT * FROM fechasectocentral where secretaria  like '%$buscar%'";
-// // $sql=" SELECT * , MAX(fecha_de_verificacion), SUBSTRING(fecha_de_verificacion, -4) AS fecha1 from fechasectocentral where secretaria  like '%$buscar%' and estatus='autorizado' group by secretaria";
+// // $sql=" SELECT * , MAX(fecha_verificacion), SUBSTRING(fecha_verificacion, -4) AS fecha1 from fechasectocentral where secretaria  like '%$buscar%' and estatus='autorizado' group by secretaria";
 
-// // $sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where  secretaria  like '%$buscar%' and estatus ='autorizado' and fecha_de_verificacion = max_fecha order by id_secretaria ";
-// $sql="SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion, comentario, estatus,  max(fecha_de_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where  secretaria  like '%$buscar%' and fecha_de_verificacion!='' and estatus='autorizado' and fecha_de_verificacion = max_fecha order by id_secretaria ";
+// // $sql="SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, comentario, estatus,  max(fecha_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where  secretaria  like '%$buscar%' and estatus ='autorizado' and fecha_verificacion = max_fecha order by id_secretaria ";
+// $sql="SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion, comentario, estatus,  max(fecha_verificacion) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where  secretaria  like '%$buscar%' and fecha_verificacion!='' and estatus='autorizado' and fecha_verificacion = max_fecha order by id_secretaria ";
 // $result = mysqli_query($conn, $sql);
 
 
@@ -84,13 +107,13 @@ $limit = $productosPorPagina;
 # El offset es saltar X productos que viene dado por multiplicar la página - 1 * los productos por página
 $offset = ($pagina - 1) * $productosPorPagina;
 # Necesitamos el conteo para saber cuántas páginas vamos a mostrar
-$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM fechasectocentral where estatus='autorizado' ");
+$sentencia = $base_de_datos->query("SELECT count(*) AS conteo FROM organigrama where estatus='autorizado' ");
 $conteo = $sentencia->fetchObject()->conteo;
 # Para obtener las páginas dividimos el conteo entre los productos por página, y redondeamos hacia arriba
 $paginas = ceil($conteo / $productosPorPagina);
 
 # Ahora obtenemos los productos usando ya el OFFSET y el LIMIT
-$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus, SUBSTRING(fecha_de_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_de_verificacion,version, comentario, estatus,  max(version) over (partition by id_secretaria) as max_fecha FROM fechasectocentral) con_max_fecha where secretaria  like '%$buscar%' and fecha_de_verificacion!='' and estatus='autorizado' and version = max_fecha order by id_secretaria desc LIMIT ? OFFSET ? ");
+$sentencia = $base_de_datos->prepare("SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus, SUBSTRING(fecha_verificacion, -4) AS fecha1 FROM  (SELECT id_fech,id_secretaria, secretaria, fecha_verificacion,version, comentario, estatus,  max(version) over (partition by id_secretaria) as max_fecha FROM organigrama) con_max_fecha where secretaria  like '%$buscar%' and fecha_verificacion!='' and estatus='autorizado' and version = max_fecha order by id_secretaria desc LIMIT ? OFFSET ? ");
 $sentencia->execute([$limit, $offset]);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
@@ -133,7 +156,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 										
 										
 										echo "<td><center>". $producto->secretaria."</center></td>";
-										echo "<td><center>". $producto->fecha_de_verificacion."</center><br></td>";
+										echo "<td><center>". $producto->fecha_verificacion."</center><br></td>";
 										echo "<td><center> Hace ". $ano." años</center></td>";
 										echo "<td><center>&nbsp; <a title='Regresar' href='org_status_procesos.php'> <img src='./iconos/archivo.png' alt='dd' width='40' height='40' title ='Descargar ultimo proyecto actualizado' ></a></center></td>";
 										
@@ -169,32 +192,39 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
                 		
 				<!--  -->
 				
-				Usted esta apunto de iniciar con el proceso de actualización agregar un comentario a <?php echo $producto->secretaria; ?> ,
-                <p>como parte del seguimiento a la actualización del proyecto de organigrama</p><br>
+				Usted esta apunto de iniciar con el proceso de actualización del Orgranigrama de la <?php echo $producto->secretaria; ?> ,
+                es importante cambiar el estatus, agregar un comentario y subir un documento que respalde el inicio
+		        de la actualizacion del Orgranigrama.</p><br>
 				
 
 				<form id="miFormulario">
 					<input type="hidden" id="idsecretaria" name="idsecretaria" value="<?php echo $id25; ?>">
 					<input type="hidden" id="secretaria" name="secretaria" value="<?php echo $producto->secretaria; ?>">
 					<input type="hidden" id="fecha_inicial" name="fecha_inicial" value="<?php echo $producto->fecha_inicial; ?>">
-					<input type="hidden" id="fecha_inicial" name="fecha_de_verificacion" value="<?php echo $fecha_de_verificacion ?>">
+					<input type="hidden" id="fecha_inicial" name="fecha_verificacion" value="<?php echo $fecha_verificacion ?>">
 									
 
 					<label for="select-comunidad">Tipo de estatus</label>
-					<select name="seguimiento" required>
+					<select name="estatusespecifico" required>
 						<option value="">Seleccione una opción</option>
-						<option value="Revision por la SCyTG">Revision por la SCyTG</option>
-						<option value="Envio de observaciones a la Institucion">Envio de observaciones a la Institucion</option>
-						<option value="En Firma por SCyTG">En Firma por SCyTG</option>
-						<option value="Revision por SEFINA">Revision por SEFINA</option>
-						<option value="En Firma por SEFINA">En Firma por SEFINA</option>
-						<option value="autorizado">Aprobado y Actualizado</option>
+						<option value="Revision por la SCyTG">Solicitado p/Oficio</option>
+						<option value="Envio de observaciones a la Institucion">Solicitado c/Apercibimiento</option>
+						<option value="En Firma por SCyTG">Recibido en SCyTG(en Fila)</option>
+						
 						
 					</select><br>
+					<input type="hidden" name="estatusgeneral" value="proceso" />
 					<br>
-					<label for="email">Comentario:</label>
-					<input type="text" id="comentario" name="comentario" required><br><br>
+					<textarea class="form-control" name="comentario" aria-label="With textarea" placeholder="Agrega un comentario" required></textarea>
+					<br>
+					Sube el documento correspondiente aquí
+       
+       <div class="form-group">
+     <input type="hidden" name="MAX_FILE_SIZE" value="51200000000000" />
+     <input name="subir_archivo" type="file" class="form-control-file" id="exampleFormControlFile1" accept="image/jpeg,application/pdf">
 					
+					<br>
+					<br>
 					<button type="submit">Guardar</button>
 				</form>
 
